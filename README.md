@@ -263,7 +263,7 @@ Un objeto reúne características que tienen en común elementos de la vida real
 
 Para definir un objeto lo hacemos de la siguiente manera:
 
-```
+``` javascript
 var nombreObjeto = {
 	nombre: 'Carlos',
 	apellido: 'Brignardello',
