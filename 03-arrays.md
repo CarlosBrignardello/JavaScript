@@ -4,15 +4,19 @@
 
 Son estructuras de datos que permiten agrupar datos dentro de una colección, posteriormente se podrán realizar una serie de acciones dentro de esa colección.
 
+
+
 **Declarar array**
 
 La sintaxis para declarar un array es la siguiente.
 
 ```javascript
-var personas = [carlos, damaris, ale, cristian];
+var personas = ["carlos", "damaris", "ale", "cristian"];
 ```
 
 > Pueden ser almacenados en su interior incluso objetos.
+
+
 
 **Obtener datos de un array**
 
@@ -24,9 +28,11 @@ console.log(personas[0].nombre)
 console.log(personas[0]['apellido'])
 ```
 
+
+
 **Recorrer un array**
 
-Para recorrer un array podemos utilizar idealmente un ciclo for
+Para recorrer un array podemos utilizar idealmente un ciclo for.
 
 ```javascript
 var carlos = {
@@ -61,7 +67,69 @@ for(var i = 0; personas.length ; i++){
 }
 ```
 
-**Filtrar elementos de un array**
+
+
+**Recorrer un Array con forEach**
+
+```js
+const lenguages = ['Python', 'Java', 'Go', 'JavaScript']
+
+lenguages.forEach(element => {
+    console.log(`Lenguaje de programación: ${element}`)    
+});
+```
+
+
+
+### Filtrar elementos de un array - *filter()*
+
+**Filtrar todos los elementos de una lista**
+
+```javascript
+const personas = [
+    {name: 'Juan', age: 17, class: 'JavaScript'},
+    {name: 'Carlos', age: 21, class: 'ReactJS'},
+    {name: 'Alexandra', age: 15, class: 'Arte'},
+    {name: 'Damaris', age: 21, class: 'Bases de datos'},
+    {name: 'Miguel', age: 15, class: 'Redes'}
+]
+
+console.log(personas)
+
+personas.filter(persona => {
+    console.log(persona)
+})
+```
+
+> En este caso mostramos todos los objetos por separado.
+
+
+
+**Filtrar con condiciones**
+
+```js
+const personas = [
+    {name: 'Juan', age: 17, class: 'JavaScript'},
+    {name: 'Carlos', age: 21, class: 'ReactJS'},
+    {name: 'Alexandra', age: 15, class: 'Arte'},
+    {name: 'Damaris', age: 21, class: 'Bases de datos'},
+    {name: 'Miguel', age: 15, class: 'Redes'}
+]
+
+console.log(personas)
+
+const mayores = personas.filter(persona => {
+    return persona.age > 18
+})
+
+console.log(mayores)
+```
+
+> En este caso el filtro me mostrara únicamente los objetos que poseen una la clave de edad con valor mayor a 18.
+
+
+
+**Filtrar con funciones**
 
 Para poder filtrar se requiere de dos cosas, un array y una condición o función.
 
@@ -109,9 +177,35 @@ console.log(personasBajas);
 
 
 
+### Encontrar elementos de un Array - *find()*
+
+```js
+const personas = [
+    {name: 'Juan', age: 17, class: 'JavaScript'},
+    {name: 'Carlos', age: 21, class: 'ReactJS'},
+    {name: 'Alexandra', age: 15, class: 'Arte'},
+    {name: 'Damaris', age: 21, class: 'Bases de datos'},
+    {name: 'Miguel', age: 15, class: 'Redes'}
+]
+
+console.log(personas)
+
+const damaris = personas.find(persona => {
+    return persona.name === 'Damaris'
+})
+
+console.log(`${damaris.name} esta aprendiendo ${damaris.class}.`)
+```
+
+> De esta forma podemos acceder al objeto que buscamos mediante una nueva variable.
+
+
+
+### map
+
+
+
 **Transformar arrays**
-
-
 
 La función `map()` nos devuelve un nuevo array que modificara cada elemento que introduzcamos del array original.
 
@@ -178,11 +272,35 @@ console.log(personasCms);
 
 
 
-**Reducir array a un solo elemento**
+### Reducir un Array a un solo elemento - *reduce()*
 
-Existe otra función común para trabajar con arrays que es reducir los valores de un array a un valor único.
+Existe otra función común para trabajar con Arrays que es reducir los valores de un array a un valor único.
 
-Una forma es la siguiente:
+
+
+Por ejemplo si quisiéramos conocer la suma total de valores de una lista podemos hacer lo siguiente:
+
+```js
+const personas = [
+    {name: 'Juan', age: 17, class: 'JavaScript'},
+    {name: 'Carlos', age: 21, class: 'ReactJS'},
+    {name: 'Alexandra', age: 15, class: 'Arte'},
+    {name: 'Damaris', age: 21, class: 'Bases de datos'},
+    {name: 'Miguel', age: 15, class: 'Redes'}
+]
+
+console.log(personas)
+
+let total = personas.reduce((edadTotalTemporal, persona) => {
+    return edadTotalTemporal + persona.age
+}, 0)
+
+console.log(`La suma de las edades de todas las personas es ${total}.`)
+```
+
+
+
+Otra forma es la siguiente:
 
 ```javascript
 var carlos = {
@@ -278,3 +396,35 @@ var totalDeLibros = personas.reduce(reducer, 0)
 console.log(`En total todos tienen ${totalDeLibros} libros`);
 ```
 
+
+
+**Object Keys**
+
+```js
+const person = {
+    name: 'Carlos',
+    profession: 'Frontend Developer',
+    age: 21
+}
+
+console.log(Object.keys(person))
+// (3) ['name', 'profession', 'age']
+```
+
+Permite comprobar si una llave o un valor existe en un objeto.
+
+
+
+**Spread Operator**
+
+Permite aglomerar el contenido de un Array en una única variable, es posible incluso generar nuevos Arrays que sean la combinación de otros.
+
+```javascript
+let lenguages = ['JavaScript', 'PHP', 'Python']
+let frameworks = ['ReactJS', 'VueJS', 'Angular']
+
+let combinar = [...lenguages, ...frameworks]
+console.log(combinar)
+```
+
+**¿PORQUE?**: Es útil por que permite copiar arreglos y generar nuevos en base a otros, lo que permite realizar modificaciones a listas sin afectar a la original.

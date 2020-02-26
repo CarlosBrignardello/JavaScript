@@ -302,4 +302,3 @@ switch (signo){
 ```
 
 > La función `prompt()` nos permite solicitar datos al usuario.
-

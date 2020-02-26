@@ -1,0 +1,19 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+h1{
+    margin: 10px 0;
+}
+
+.alert{
+    background-color: black;
+    color: red;
+}
+
+.border{
+    background-color: rgb(218, 255, 56);
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+}

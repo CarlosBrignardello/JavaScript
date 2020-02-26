@@ -4,7 +4,11 @@
 
 ### Variables
 
-Para imprimir un mensaje por la consola utilizamos la función  `console.log('Mensaje')`. 
+**let**: Es la forma principal de almacenar valores, los valores de la variable con let no puede ser modificada globalmente dentro de una función o un ciclo.
+
+**const**: Se le debe añadir siempre un valor al declararla y no puede ser modificada posteriormente.
+
+**var**: Opera de la misma forma que let con la diferencia de que es modificable a nivel global.
 
 
 
@@ -13,13 +17,13 @@ Para imprimir un mensaje por la consola utilizamos la función  `console.log('Me
 Las variables pueden ser declaradas en forma simple
 
 ```javascript
-var nombre;
+let nombre;
 ```
 
 o en serie
 
 ```javascript
-var nombre, nombre_corto;
+let nombre, nombre_corto;
 ```
 
 y se les puede asignar un valor
@@ -35,7 +39,7 @@ nombre = 'Carlos Brignardello';
 Podemos declarar variables e inmediatamente asignarles un valor
 
 ```javascript
-var nombre = "Carlos Brignardello", nombre_corto = "Carlos";
+let nombre = "Carlos Brignardello", nombre_corto = "Carlos";
 ```
 
 Estas pueden ser anidadas con otras funciones
@@ -43,6 +47,8 @@ Estas pueden ser anidadas con otras funciones
 ```javascript
 console.log("Hola " + nombre);
 ```
+
+> Para imprimir un mensaje por la consola utilizamos la función  `console.log('Mensaje')`. 
 
 
 
@@ -60,6 +66,8 @@ Podemos declarar una variable con un texto que pondremos en mayúsculas mediante
 var nombreMayus = nombre.toUpperCase();
 ```
 
+
+
 **Lower case**
 
 y también lo contrario devolviendo la variable en minúsculas con la función `toLowerCase();`.
@@ -67,6 +75,8 @@ y también lo contrario devolviendo la variable en minúsculas con la función `
 ```javascript
 var nombre_cortoMinus = nombre_corto.toLowerCase();
 ```
+
+
 
 **Obtener carácter**
 
@@ -76,6 +86,8 @@ Podemos obtener el cualquier carácter de un string mediante la función `charAt
 var nombreCaracter = nombre_corto.charAt(0);
 ```
 
+
+
 **Obtener largo de un string**
 
 Podemos obtener la cantidad de letras que posee una palabra mediante el atributo `length`.
@@ -83,6 +95,8 @@ Podemos obtener la cantidad de letras que posee una palabra mediante el atributo
 ```javascript
 var letrasEnNombre = nombre_corto.length;
 ```
+
+
 
 **Concatenar strings**
 
@@ -95,6 +109,8 @@ var nombreCompleto = `${nombre_corto} ${apellido}`;
 
 > Ambos otorgan el mismo resultado.
 
+
+
 **Obtener fragmentos de un string**
 
 Para obtener un pedazo de un string podemos utilizar la función `substr(a, b);`.
@@ -105,11 +121,15 @@ var str = nombre_corto.substr(0, 3);
 
 > De esta forma obtenemos las tres primeras letras de la variable "nombre_corto".
 
-**Obtener ultima letra de una variable**
+
+
+**Obtener última letra de una variable**
 
 ```javascript
 var ultima = nombre_corto.charAt((nombre_corto.length) -1);
 ```
+
+
 
 
 
@@ -133,6 +153,8 @@ edadMenos = edad - 2;
 edadMenos -= 2;
 ```
 
+
+
 **Sumar variables**
 
 Podemos sumar dos variables numéricas de la siguiente forma:
@@ -140,6 +162,8 @@ Podemos sumar dos variables numéricas de la siguiente forma:
 ```javascript
 edad = edad + tiempo;
 ```
+
+
 
 **Operar decimales**
 
@@ -150,6 +174,8 @@ var precio = 200.5;
 var total = Math.round(precio * 3 * 100) / 100;
 ```
 
+
+
 **Convertir string a decimal y aumentar número de decimales**
 
 Para incrementar el número de decimales recurrimos a la función `toFixed();` y para convertir un string a decimal utilizamos `parseFloat();`
@@ -158,6 +184,8 @@ Para incrementar el número de decimales recurrimos a la función `toFixed();` y
 var totalNumeroDecimales = total.toFixed(2);
 var total = parseFloat(totalNumeroDecimales);
 ```
+
+
 
 
 
@@ -189,8 +217,8 @@ Otra forma de mostrar la misma información es la siguiente:
 var nombre = 'Carlos', edad = 21;
 
 console.log(`DATOS
-Nombre: ${nombre}
-Edad: ${edad}`);
+	Nombre: ${nombre}
+	Edad: ${edad}`);
 ```
 
 
@@ -245,6 +273,8 @@ nombreMayusculas(nombre);
 
 
 
+
+
 ### Objetos
 
 
@@ -263,7 +293,7 @@ Un objeto reúne características que tienen en común elementos de la vida real
 
 Para definir un objeto lo hacemos de la siguiente manera:
 
-```
+```javascript
 var nombreObjeto = {
 	nombre: 'Carlos',
 	apellido: 'Brignardello',
@@ -322,6 +352,70 @@ function nombreMayuscula( persona ){
 nombreMayusculas(carlos);
 nombreMayusculas(felix);
 nombreMayusculas({ nombre: "Sebastian" });
+```
+
+
+
+**Object Constructor**
+
+Tras las nuevas actualizaciones de JavaScript es posible generar objetos de una forma mucho más dinámica. 
+
+```js
+// Generar constructor
+function Tasks(name, time){
+	this.name = name
+	this.time = time
+}
+
+// Crear nuevo objeto
+const task_pan = new Tasks('Comprar Pan', '1 Hora')
+
+// Obtener valores
+console.log(task_pan.name)
+```
+
+> Se crea general a una función, como convención se nombran con mayúscula, estas permiten generar nuevos objetos con sus parámetros mediante el uso de la palabra clave `new`.
+
+
+
+### Prototypes
+
+En ocasiones será necesario generar una función que sea de uso exclusivo de un objeto, para ello hacemos uso de lo prototype.
+
+En el siguiente ejemplo generamos dos objetos y dos funciones (una global y otra exclusiva de un objeto)
+
+```js
+/*
+// Objeto literal
+const gato = {
+    nombre: 'Mojito',
+    color: 'blanco con gris',
+    personalidad: 'indiferente'
+}
+
+// Objeto constructor
+function Task(name, time){
+    this.name = name
+    this.time = time
+}
+const comprar_pan = new Task('Comprar Pan', '2 Horas')
+
+// Mostrar Objetos
+console.log(gato)
+console.log(comprar_pan)
+
+// Crear función
+function mostrarInfoTarea(name, time){
+    return `La tarea ${name} se cumplira en ${time}.`
+}
+console.log(mostrarInfoTarea(comprar_pan.name, comprar_pan.time))
+*/
+
+// Crear función exclusiva del objeto Task
+Task.prototype.mostrarInfoTarea2 = function(){
+    return `La tarea ${this.name} se cumplira en ${this.time}.`
+}
+console.log(comprar_pan.mostrarInfoTarea2())
 ```
 
 

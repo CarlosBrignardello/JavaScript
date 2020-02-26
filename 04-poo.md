@@ -26,3 +26,6 @@ var carlos = new Persona('Carlos', 'Brignardello'); // Variable
 **Ejecutar funciones con prototipos**
 
 Podemos por ejemplo también ejecutar funciones con un prototipo mediante los datos de un objeto, como se en el código a continuación.
+
+
+
