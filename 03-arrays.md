@@ -428,3 +428,13 @@ console.log(combinar)
 ```
 
 **¿PORQUE?**: Es útil por que permite copiar arreglos y generar nuevos en base a otros, lo que permite realizar modificaciones a listas sin afectar a la original.
+
+
+
+**Introducir elementos en una lista**: 
+
+* lista.push(elemento)
+
+**Eliminar ultimo elemento de una lista y retornarlo**: 
+
+* lista.pop()

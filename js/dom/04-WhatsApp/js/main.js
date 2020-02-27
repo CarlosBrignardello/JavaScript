@@ -1,17 +1,18 @@
 /*
 Postear mensaje con boton #LISTO
-Postear mensaje con enter 
+Postear mensaje con enter # LISTO
 Poner hora exacta # LISTO
-Scroll # QUE ?
-Cambiar los chats
+Scroll # LISTO
+Cambiar los chats # --
 */
 
 function addMessage(){
+  var message = document.getElementById("mensajes");
+  var chat = document.getElementById("chat");
+
   if(mensajes.value == ""){
     return
   }
-  var message = document.getElementById("mensajes");
-  var chat = document.getElementById("chat");
 
   var message_out = document.createElement("div");
   message_out.className = 'w-message-out w-message';
@@ -41,3 +42,11 @@ function addMessage(){
 
 var boton = document.getElementsByClassName('icon-mic')[0]
 boton.addEventListener('click', addMessage)
+mensajes.addEventListener('keyup', (ev) =>{
+  if(ev.keyCode != 13) {
+    return;
+}
+  else{
+    addMessage()
+  }
+});
