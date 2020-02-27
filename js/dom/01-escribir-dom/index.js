@@ -15,11 +15,10 @@ text_three.classList.remove('border')
 
 /* 5. Agregar evento */
 const text_four = document.getElementsByTagName('h1')[3]
-text_four.addEventListener('click', alerta => text_four.classList.toggle('alert'))
+text_four.addEventListener('click', () => text_four.classList.toggle('alert'))
 
 /* Crear etiquetas y agregarlas */
-const header = document.createElement
-('h1')
+const header = document.createElement('h1')
 const div = document.getElementById('contenedor')
 const texto = document.createTextNode("6. Etiqueta generada por JS")
 header.appendChild(texto)
