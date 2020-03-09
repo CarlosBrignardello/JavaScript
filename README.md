@@ -1,16 +1,248 @@
 # JAVASCRIPT
 
+### Descripción
+
+Este documento contiene los siguientes conceptos:
+
+* Actualizaciones ES6
+  * Arrow Functions
+  * let | const
+  * Template Literal | `${expresión}`
+  * Funciones con valores por defecto
+  * Spread Operators
+  * Desestructuración de objetos
+  * Clases | Constructor
+* Variables
+* Strings
+* Funciones
+* Objetos | Básicos
+* Prototypes | **Añadir más adelante**
+* Comparaciones
+* Estructuras de control
+
+En los siguientes documentos mark down encontraras el resto del contenido.
+
+
+
+### ES6
+
+EcmaScript 6 es la versión más reciente de JavaScript. En ella se incluyen un montón de nuevas funcionalidades que serán descritas a continuación:
+
+
+
+**Arrow Functions**
+
+Las funciones flecha significaron un cambio en como las funciones de JavaScript funcionan y lucen. Esto es debido a que visualmente recibieron un cambio en comparación con las funciones originales, de:
+
+```js
+const info = function info(){
+	// ...
+}
+```
+
+a
+
+```js
+const info = () => {
+   // ...
+}
+```
+
+Si la función solo tiene una línea, se puede escribir de la siguiente forma:
+
+```js
+const info = params => console.log('Hola!')
+```
+
+
+
+**let y const**
+
+`var` era la forma convencional de declarar una variable y tiene un scope de función, es decir que puede modificar valores dentro y fuera de una función.
+
+`let` es una de las nuevas formas de declarar una variable que tiene un scope limitado de bloque, es decir que si se modifica dentro de una función esta no afectara a nada fuera de la misma.
+
+`const` es como `let` pero inmutable. Su valor no puede ser modificado durante ejecución.
+
+
+
+**Strings Template Literal**
+
+Ahora se pueden introducir expresiones al interior de strings mediante la siguiente sintaxis:
+
+```js
+const saludo = `Hola soy ${name}`
+const validar = `Validaciones:
+	1. No se aceptan campos vaciós
+	2. No se aceptan números.`
+```
+
+
+
+**Funciones con valores por defecto**
+
+```js
+const test = function(index = 0, testing = true) { 
+    // ...
+}
+test()
+```
+
+
+
+**Spread Operator**
+
+Es posible expandir un array, un objeto o un string utilizando el spread operator `...`
+
+Permite manejar todo el contenido de un elemento para pasárselo a otro:
+
+```js
+const frameworks = ['Angular', '"React"', 'Vue']
+const skills = [...frameworks, 'Java', 'Python'] // ['Angular', '"React"', 'Vue', 'Java', 'Python']
+```
+
+También es posible copiar el contenido completo de un elemento a otro para realizar operaciones seguras, sin reemplazar el contenido del elemento original.
+
+```js
+const lista = ['frutilla', 'avena']
+const desayuno = [...lista]
+```
+
+Es posible incluso crear un array de las letras separadas de un string facilmente.
+
+```js
+const hey = 'Carlos'
+const arrayized = [...hey] // ['C', 'a', 'r', 'l', 'o', 's']
+```
+
+Finalmente también se pueden asignar atributos a una función mediante los spread operators:
+
+```js
+const carta = (msg, autor) => {
+    `${msg}
+	by: ${autor}`
+}
+const msgCarlos = ['Hola que tal jejeje', 'Carlos B.']
+carta(...msgCarlos)
+```
+
+
+
+**Desestructurar objetos**
+
+De un objeto es posible extraer los valores necesarios y guardarlos en variables:
+
+```js
+const carlos = {
+	firstName: 'Carlos',
+	lastName: 'Brignardello',
+	job: 'Frontend Developer',
+	age: 21
+}
+
+const { firstName, age } = carlos
+console.log(firstName) // 'Carlos'
+console.log(age) // 21
+```
+
+
+
+**Elementos restantes y spread operators**
+
+Es posible desestructurar varios elementos de forma rápida con spread operators:
+
+```js
+const numeros = [1, 2, 3, 4, 5]
+[uno, dos, ...resto] = numeros
+console.log(uno) // 1
+console.log(dos) // 2
+console.log(resto) // [3, 4, 5]
+```
+
+Se puede hacer lo mismo con objetos:
+
+```js
+const { first, second, ...others } = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5
+}
+first // 1
+second // 2
+others // { third: 3, fourth: 4, fifth: 5 }
+```
+
+
+
+**Clases**
+
+JavaScript es el único lenguaje que maneja la herencia a base de prototipos. Sin embargo ahora con la llegada de las clases la forma en que estas se construyen para programar la herencia tradicional es muy similar.
+
+```js
+class Persona{
+	constructor(nombre){
+		this.nombre = nombre
+	}
+	
+	saludo(){
+		return `Hola, Soy ${this.name}.`
+	}
+}
+```
+
+```js
+Class Programador extends Persona{
+    saludo(){
+        return super.saludo() + ` Soy programador.`
+    }
+}
+
+let carlos = new Programador('Carlos Brignardello')
+carlos.saludar()
+```
+
+
+
+**Constructor**
+
+Ahora las clases tienen un nuevo método denominado `constructor` que se llama cuando una clase se inicia con la palabra clave `new`.
+
+> Las clases padre pueden ser referenciadas mediante `super()`.
+
+
+
+**Getters y Setters**
+
+Un getter se puede declarar de la siguiente forma:
+
+```js
+class Persona{
+    get fullName(){
+        return `${this.firstName} ${this.lastName}`
+    }
+}
+```
+
+Los setters se escriben de la misma forma:
+
+```js
+class Persona{
+	set age(years){
+	this.theAge = years
+	}
+}
+```
+
+
+
+**Importar modulos**
+
+Ahora es posible importar mediante la sintaxis `import ... from ...`
+
+```js
+import React from 'react'
+```
+
 
 
 ### Variables
-
-**let**: Es la forma principal de almacenar valores, los valores de la variable con let no puede ser modificada globalmente dentro de una función o un ciclo.
-
-**const**: Se le debe añadir siempre un valor al declararla y no puede ser modificada posteriormente.
-
-**var**: Opera de la misma forma que let con la diferencia de que es modificable a nivel global.
-
-
 
 **Declarar Variables**
 
@@ -52,9 +284,15 @@ console.log("Hola " + nombre);
 
 
 
-
-
 ### Strings
+
+Los strings son cadenas de texto, estos pueden ser declarados de las siguientes formas:
+
+```js
+const simple = 'Hola ' + name
+const doble = "Hey " + name
+const literal = `Hola ${name}`
+```
 
 
 
@@ -131,8 +369,6 @@ var ultima = nombre_corto.charAt((nombre_corto.length) -1);
 
 
 
-
-
 ### Números
 
 
@@ -184,8 +420,6 @@ Para incrementar el número de decimales recurrimos a la función `toFixed();` y
 var totalNumeroDecimales = total.toFixed(2);
 var total = parseFloat(totalNumeroDecimales);
 ```
-
-
 
 
 
