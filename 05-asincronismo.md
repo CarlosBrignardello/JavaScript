@@ -1,213 +1,102 @@
 # ASINCRONISMO
 
+### Descripción
+
+El contenido del documento es el siguiente:
+
+* **Event Loop**
+* **Promesas**
+* **Callbacks**
+* **`async` | `await`**
 
 
-### Funciones como parámetros
 
-Hasta el momento se han estado pasando parámetros del tipo texto, número, etc. Sin embargo es importante saber que en JavaScript es posible pasar **funciones como parámetro**.
+### Event Loop - Entendiendo el asincronismo
 
-El código que utilizaremos para ello es el siguiente:
+Los navegadores y node.js están constantemente corriendo un único evento de loop que ejecuta el código, en un comienzo se ejecuta todo el código síncrono y al mismo tiempo se deja en una cola los eventos asincrónicos para ser llamados posteriormente, mientras obtienen los datos de la red. Cuando uno de los datos asíncronos termina de cargar se llama devuelta(**callback**). Independiente del orden en que fueron ejecutados solo serán obtenidos en el orden en que carguen.
 
-```javascript
-class NOMBRE_CLASE{   
-    constructor(param1, param2, param3){
-        this.param1 = param1;
-        ...........
-    }
-    NOMRE_FUNCIÓN(fn){
-        console.log(`EXAMPLE`)
-        if(fn){
-            fn(this.param1, this.param2, param3)
-        }
-    }
+```js
+// Ejecución Sincrona
+console.log('#1 Ejecución sincrona')
 
-function NOMBRE_FUNCIÓN_PARAMETRO(param1, param2, param3){
-    console.log(`EXAMPLE`)
-    if(esDev){
-        console.log(`EXAMPLE`)
-    }
-}
-    
-var obj1 = new NOMBRE_CLASE('Carlos', 'Brignardello', 1.68)
-var obj2 = new NOMBRE_CLASE('Damaris', 'Bejar', 1.58)
-obj1.NOMBRE_FUNCIÓN(NOMBRE_FUNCIÓN_PARAMETRO)
-obj2.NOMBRE_FUNCIÓN()
+// Ejecución Asincrona con 0 de retardo
+setTimeout( () => console.log('#2 Timeout'), 0)
+
+// Ejecución asincronica con promesa
+Promise.resolve().then( () => console.log('#3 Promesa'))
+
+// Ejecución Sincrona
+console.log('#4 Ejecución sincrona')
 ```
 
-Lo que hacemos en el siguiente código es que al ejecutar la función *"saludar"* esta pasará como parámetro en algunos casos una función, la cual en caso de ocurrir ejecutara la función que enviamos como parámetro con los valores definidos en la función.
+> En este caso el orden de ejecución sería el siguiente [1,4,3,2]. La razón es que mientras las ejecuciones síncronas cargan siempre primero, luego cargan las promesas y al final el resto de elementos en la pila de ejecución.
 
-```javascript
-class Persona{
-    constructor(nombre, apellido, altura){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.altura = altura; 
-    }
 
-    saludar(fn){
-        console.log(`Hola, me llamo ${this.nombre} ${this.apellido}`)
-        if(fn){
-            fn(this.nombre, this.apellido, false)
-        }
-    }
-    soyAlto(){
-        return this.altura > 1.7
-    }
-}
 
-class Desarrollador extends Persona{
-    constructor(nombre, apellido, altura){
-        super(nombre, apellido, altura)
-    }
+### Promesas
 
-    saludar(fn){
-        console.log(`Hola, me llamo ${this.nombre} ${this.apellido} y soy desarrollador`)
-        if(fn){
-            fn(this.nombre, this.apellido, true)
-        }
-    }
-}
+Las promesas permiten lidiar con el código asíncrono evitando generar varias callbacks. Estas comienzan en un estado *pendiente*. Esto es debido a que la función que la llama continua el resto de ejecuciones y espera a que la promesa retorne un estado, se este `resolve` o `rejected`.
 
-function responderSaludo(nombre, apellido, esDev){
-    console.log(`Buen día ${nombre} ${apellido}`)
-    if(esDev){
-        console.log(`Veo que eres desarrollador/a`)
-    }
-}
 
-var carlos = new Persona('Carlos', 'Brignardello', 1.68)
-var damaris = new Persona('Damaris', 'Bejar', 1.58)
-var dante = new Desarrollador('Dante', 'Ruiz', 1.75)
-carlos.saludar(responderSaludo)
-damaris.saludar()
-dante.saludar(responderSaludo)
+
+**Crear una promesa**
+
+Para crear una promesa se debe generar un constructor de promesa, que se inicializa mediante la palabra clave `new Promise()`.  En su interior podemos devolver dos valores uno de respuesta y otro  de rechazo, estos valores se declaran mediante `resolve `| `reject.`
+
+```js
+let estado = true
+
+const revisarEstado = new Promise((resolve, reject) => {
+  if (estado) {
+    const exito = 'Todo bien, todo correcto...'
+    resolve(exito)
+  } else {
+    const fracaso = 'Todo mal, todo pesimo...'
+    reject(fracaso)
+  }
+})
 ```
 
-> En el caso del objeto Damaris no se envía ningún parámetro por lo que simplemente se omite el condicional que ejecuta la función.
->
-> Resultado:
->
-> Hola, me llamo Carlos Brignardello
-> Buen día Carlos Brignardello
-> Hola, me llamo Damaris Bejar
-> Hola, me llamo Dante Ruiz y soy desarrollador
-> Buen día Dante Ruiz
-> Veo que eres desarrollador/a
+> Esta promesa revisa si el valor de `estado` es correcto y devuelve una promesa `resuelta`.
+
+Utilizando `resolve` y `reject` podemos comunicar un valor.
+
+
+
+**Consumir una promesa**
+
+Para consumir una promesa debemos ejecutar una función que evaluara si la petición fue aceptada o rechazada, mediante la sintaxis `then | catch`.
+
+```js
+const revisarEstado = new Promise()
+	//...
+
+const consumirRevisarEstado = () => {
+  revisarEstado
+    .then(ok => {
+      console.log(ok)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+}
+```
+
+Al consumir la promesa estamos ejecutando como tal la promesa que creamos anteriormente y se espera que esta se resuelva, utilizando `then`, en caso de que falle se devolverá el error mediante `catch`.
+
+
+
+**Encadenar promesas**
+
+https://flaviocopes.com/javascript-promises/
 
 
 
 ### Asincronismo
 
-JavaScript solo puede hacer una tarea a la vez, sin embargo puede delegar la ejecución de ciertas funciones a otros procesos.
-
-Este modelo de concurrencia se llama EVENT LOOP. JavaScript posee un componente llamado pila de ejecución o Call Stack, donde ordena las llamadas a funciones según el orden de ejecución, al terminar de ejecutar una función la retira de la pila.
-
-Por ejemplo se puede ejecutar una función al obtener los datos del servidor. Este proceso recibe el nombre de Call Back, mientras llega la respuesta se seguirán ejecutando tareas e incluso cuando la respuesta ya este lista ira a parar a la cola de tareas, a esta cola de tareas van a parar peticiones a servidores, navegación, eventos cada cierto tiempo, una vez se quede sin tareas en la pila de ejecución se utilizara el dato que se pidió inicialmente. Por esta razón es importante no generar un cuello de botella o varias tareas pesadas en la cola de tareas.
+JavaScript evoluciono el manejo del asincronismo del **callback** a las **promesas** y más recientemente se incorporo la sintaxis `async` / `await` que simplifico aún más el desarrollo.
 
 
-
-**El tiempo en JavaScript**
-
-Podemos comprobar el tiempo en JavaScript con el siguiente código, donde agregaremos un retraso.
-
-```javascript
-setTimeout(() => console.log('100ms'), 100)
-setTimeout(() => console.log('200ms'), 200)
-setTimeout(() => console.log('400ms'), 400)
-setTimeout(() => console.log('800ms'), 800)
-setTimeout(() => console.log('1600ms'), 1600)
-console.log('a')
-console.log('b')
-console.log('c')
-console.log('d')
-console.log('e')
-```
-
-> Con este ejemplo el orden de ejecución es el siguiente:
->
-> a
->
-> b
->
-> c
->
-> d
->
-> e
->
-> 100ms
->
-> 200ms
->
-> 400ms
->
-> 800ms
->
-> 1600ms
-
-Otro ejemplo que podemos ejecutar es el siguiente, otorgando 0 milisegundos de retraso y colocándolo en primer lugar del orden de ejecución.
-
-```javascript
-setTimeout(() => console.log('A - 0ms'), 0)
-console.log('B')
-console.log('C')
-console.log('D')
-```
-
-> El resultado es el siguiente:
->
-> B
->
-> C
->
-> D
->
-> A - 0ms
->
-> Lo que sucede es que al utilizar una función es que la ponemos en la cola de tareas y el resto del código se sigue ejecutando con normalidad, por lo que la función concreta será ejecutada al terminar de ejecutar todo el resto de operaciones.
-
-Otro ejemplo:
-
-```javascript
-setTimeout(() => console.log('A - 500ms'), 500)
-setTimeout(() => console.log('B - 1000ms'), 1000)
-console.log('C')
-setTimeout(() => console.log('D - 250ms'), 250)
-console.log('E')
-```
-
-> Donde el resultado es:
->
-> C
->
-> E
->
-> D - 250ms
->
-> A - 500ms
->
-> B - 1000ms
->
-> Lo que sucede es que pese a encontrarse en la cola de tareas en orden distinto, estas se van disparando en orden y mientras se ejecuta la función de una ya se disparo la otra, por lo que los tiempos de las funciones si son prioridades.
-
-Otro ejemplo:
-
-```javascript
-setTimeout(() => console.log('A - 100ms'), 100)
-for(var i = 0; i < 900000000; i++){
-
-}
-```
-
-> Con este ejemplo una vez pasaros ciertos segundos se completa el ciclo for y se muestra el mensaje *"A - 100ms"* por consola.
-
-
-
-### Callbacks
-
-
-
-Mediante la librería JQuery realizaremos request para obtener datos con una Api externa.
 
 **JQuery**
 
@@ -342,19 +231,79 @@ obtenerPersonaje(1, function(personaje){
 })
 ```
 
-### Promesas
 
-Al utilizar los sistemas anteriores para ordenar al flujo de ejecución de los request se llegaba a producir un problema denominado "callback hell", para optimizar la forma en que son solicitadas la request utilizamos un nuevo concepto denominado promesas.
 
-Las promesas son valores que aun no se conocen, es la promesa de que existirá un valor cuando una acción asíncrona suceda y se resuelva.
+### Async Await
 
-1. Primer estado (Pending): es el primer estado de la promesa, sucede cuando se crea, mientras sucede la solicitud se esta resolviendo.
-2. Segundo estado (Fulfilled):  una vez se resuelve al promesa se pasa a este estado.
-   * Podemos obtener el valor de la resolución de la promesa con `.then(val => ...)`
-3. Tercer estado (Rejected): si ocurre cualquier error la promesa pasa a este estado.
-   * Para obtener el valor del error de la promesa utilizamos `.catch(err => ...)`
+La última forma de generar tareas asíncronas y también, la más sencilla y clara es mediante Async-await.
 
-* Finalmente podemos encadenar una nueva promesa al finalizar la anterior.
+Creamos una función para obtenerlos personajes que realizara lo mismo que hacíamos con la lista anterior.
+
+Sin embargo dentro de las promesas guardaremos los personajes en una variable la cual una vez se obtengan todas las promesas las guardara en la variable, para hacer eso utilizamos la palabra clave `await` de la siguiente forma:
+
+```javascript
+async function obtenerPersonajes(){
+    var ids = [1, 2, 3, 4, 5, 6]
+    var promesas = ids.map( id => obtenerPersonaje(id))
+    try{
+        var personajes = await Promise.all(promesas)
+        console.log(personajes)
+    }
+    catch(id){
+        onError(ID)
+    }
+}
+```
+
+> Lo que haremos es detener la ejecución del código se detendrá hasta que todas las promesas sean resueltas, mientras tanto el resto del código se seguirá ejecutando sin problemas. para poder utilizar `await` debemos marcar la función padre completa como asíncrona, con la palabra clave `async`.
+>
+> Finalmente la variable que contiene al `await `debe ir dentro de un `try` el cual posteriormente posee un `catch` para detectar un error.
+
+El resultado final es el siguiente:
+
+```javascript
+const API_URL = 'https://swapi.co/api/';
+const PEOPLE_URL = 'people/:id';
+const opts = { crossDomain: true };
+
+function obtenerPersonaje(id) {
+    return new Promise((resolve, reject) => {
+    const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`;
+    $.get(url, opts, function(data){
+        resolve(data);
+    })
+    .fail(()=>reject(id));
+  });
+}
+
+function onError(id){
+  console.log(`Sucedió un error al obtener el personaje ${id}`);
+}
+
+async function obtenerPersonajes(){
+    var ids = [1, 2, 3, 4, 5, 6]
+    var promesas = ids.map( id => obtenerPersonaje(id))
+    try{
+        var personajes = await Promise.all(promesas)
+        console.log(personajes)
+    }
+    catch(id){
+        onError(ID)
+    }
+}
+
+obtenerPersonajes()
+```
+
+
+
+
+
+
+
+
+
+
 
 **Sintaxis de la promesa**
 
@@ -539,66 +488,3 @@ Promise
     .catch(onError)
 ```
 
-
-
-**Async-await**
-
-La última forma de generar tareas asíncronas y también, la más sencilla y clara es mediante Async-await.
-
-Creamos una función para obtenerlos personajes que realizara lo mismo que hacíamos con la lista anterior.
-
-Sin embargo dentro de las promesas guardaremos los personajes en una variable la cual una vez se obtengan todas las promesas las guardara en la variable, para hacer eso utilizamos la palabra clave `await` de la siguiente forma:
-
-```javascript
-async function obtenerPersonajes(){
-    var ids = [1, 2, 3, 4, 5, 6]
-    var promesas = ids.map( id => obtenerPersonaje(id))
-    try{
-        var personajes = await Promise.all(promesas)
-        console.log(personajes)
-    }
-    catch(id){
-        onError(ID)
-    }
-}
-```
-
-> Lo que haremos es detener la ejecución del código se detendrá hasta que todas las promesas sean resueltas, mientras tanto el resto del código se seguirá ejecutando sin problemas. para poder utilizar `await` debemos marcar la función padre completa como asíncrona, con la palabra clave `async`.
->
-> Finalmente la variable que contiene al `await `debe ir dentro de un `try` el cual posteriormente posee un `catch` para detectar un error.
-
-El resultado final es el siguiente:
-
-```javascript
-const API_URL = 'https://swapi.co/api/';
-const PEOPLE_URL = 'people/:id';
-const opts = { crossDomain: true };
-
-function obtenerPersonaje(id) {
-    return new Promise((resolve, reject) => {
-    const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`;
-    $.get(url, opts, function(data){
-        resolve(data);
-    })
-    .fail(()=>reject(id));
-  });
-}
-
-function onError(id){
-  console.log(`Sucedió un error al obtener el personaje ${id}`);
-}
-
-async function obtenerPersonajes(){
-    var ids = [1, 2, 3, 4, 5, 6]
-    var promesas = ids.map( id => obtenerPersonaje(id))
-    try{
-        var personajes = await Promise.all(promesas)
-        console.log(personajes)
-    }
-    catch(id){
-        onError(ID)
-    }
-}
-
-obtenerPersonajes()
-```

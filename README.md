@@ -4,7 +4,7 @@
 
 Este documento contiene los siguientes conceptos:
 
-* Actualizaciones ES6
+* **Actualizaciones ES6**
   * Arrow Functions
   * let | const
   * Template Literal | `${expresión}`
@@ -12,13 +12,11 @@ Este documento contiene los siguientes conceptos:
   * Spread Operators
   * Desestructuración de objetos
   * Clases | Constructor
-* Variables
-* Strings
-* Funciones
-* Objetos | Básicos
-* Prototypes | **Añadir más adelante**
-* Comparaciones
-* Estructuras de control
+* **Variables**
+* **Strings**
+* **Funciones**
+* **Objetos | Básicos**
+* **Condicionales**
 
 En los siguientes documentos mark down encontraras el resto del contenido.
 
@@ -171,67 +169,6 @@ others // { third: 3, fourth: 4, fifth: 5 }
 
 
 
-**Clases**
-
-JavaScript es el único lenguaje que maneja la herencia a base de prototipos. Sin embargo ahora con la llegada de las clases la forma en que estas se construyen para programar la herencia tradicional es muy similar.
-
-```js
-class Persona{
-	constructor(nombre){
-		this.nombre = nombre
-	}
-	
-	saludo(){
-		return `Hola, Soy ${this.name}.`
-	}
-}
-```
-
-```js
-Class Programador extends Persona{
-    saludo(){
-        return super.saludo() + ` Soy programador.`
-    }
-}
-
-let carlos = new Programador('Carlos Brignardello')
-carlos.saludar()
-```
-
-
-
-**Constructor**
-
-Ahora las clases tienen un nuevo método denominado `constructor` que se llama cuando una clase se inicia con la palabra clave `new`.
-
-> Las clases padre pueden ser referenciadas mediante `super()`.
-
-
-
-**Getters y Setters**
-
-Un getter se puede declarar de la siguiente forma:
-
-```js
-class Persona{
-    get fullName(){
-        return `${this.firstName} ${this.lastName}`
-    }
-}
-```
-
-Los setters se escriben de la misma forma:
-
-```js
-class Persona{
-	set age(years){
-	this.theAge = years
-	}
-}
-```
-
-
-
 **Importar modulos**
 
 Ahora es posible importar mediante la sintaxis `import ... from ...`
@@ -336,19 +273,6 @@ var letrasEnNombre = nombre_corto.length;
 
 
 
-**Concatenar strings**
-
-Poseemos las siguientes formas de concatenar strings en JavaScript.
-
-```javascript
-var nombreCompleto = nombre_corto + " " + apellido; 
-var nombreCompleto = `${nombre_corto} ${apellido}`;
-```
-
-> Ambos otorgan el mismo resultado.
-
-
-
 **Obtener fragmentos de un string**
 
 Para obtener un pedazo de un string podemos utilizar la función `substr(a, b);`.
@@ -370,8 +294,6 @@ var ultima = nombre_corto.charAt((nombre_corto.length) -1);
 
 
 ### Números
-
-
 
 **Incrementar y decrementar una variable**
 
@@ -424,8 +346,6 @@ var total = parseFloat(totalNumeroDecimales);
 
 
 ### Funciones
-
-
 
 **Definir y ejecutar funciones**
 
@@ -507,11 +427,7 @@ nombreMayusculas(nombre);
 
 
 
-
-
 ### Objetos
-
-
 
 **Definir Objetos**
 
@@ -612,123 +528,7 @@ console.log(task_pan.name)
 
 
 
-### Prototypes
-
-En ocasiones será necesario generar una función que sea de uso exclusivo de un objeto, para ello hacemos uso de lo prototype.
-
-En el siguiente ejemplo generamos dos objetos y dos funciones (una global y otra exclusiva de un objeto)
-
-```js
-/*
-// Objeto literal
-const gato = {
-    nombre: 'Mojito',
-    color: 'blanco con gris',
-    personalidad: 'indiferente'
-}
-
-// Objeto constructor
-function Task(name, time){
-    this.name = name
-    this.time = time
-}
-const comprar_pan = new Task('Comprar Pan', '2 Horas')
-
-// Mostrar Objetos
-console.log(gato)
-console.log(comprar_pan)
-
-// Crear función
-function mostrarInfoTarea(name, time){
-    return `La tarea ${name} se cumplira en ${time}.`
-}
-console.log(mostrarInfoTarea(comprar_pan.name, comprar_pan.time))
-*/
-
-// Crear función exclusiva del objeto Task
-Task.prototype.mostrarInfoTarea2 = function(){
-    return `La tarea ${this.name} se cumplira en ${this.time}.`
-}
-console.log(comprar_pan.mostrarInfoTarea2())
-```
-
-
-
-### Parámetros como referencia
-
-
-
-**Crear nuevos objetos con funciones**
-
-Podemos crear objetos dentro de funciones que serán generados en base a otro objeto existente, como se ve en el código de ejemplo:
-
-```javascript
-var carlos = {
-    nombre: 'Carlos',
-    edad: 21,
-    trabajo: 'Web'
-};
-
-function cumpleanos(persona){
-    return{
-    ...persona,
-        edad: persona.edad + 1
-    };
-};
-
-var personaNueva = cumpleanos(carlos);
-```
-
-> Con este método al ver el objeto "carlos" nos mostrara la mismo información y al ver el objeto "personaNueva" nos mostrara la información anterior con la edad incrementada.
-
-
-
-### Comparaciones
-
-
-
-**Comparar variables**
-
-En JavaScript poseemos dos formas de comparar variables:
-
-```javascript
-var x = 4, y = '4';
-console.log(x == y);
-console.log(x === y);
-```
-
-> Poseemos dos variables, una numérica y otra de tipo string, sin embargo al compararla con "==" se identifican como iguales y al utilizar "===" se identifican como diferentes.
-
-
-
-**Comparar objetos**
-
-Si comparamos objetos de la forma en que se ve en el código resultara que estas son distintas:
-
-```javascript
-var carlos = {
-    nombre: 'Carlos',
-};
-
-var otroCarlos = {
-    ...carlos /* Igualamos los objetos */
-};
-
-console.log(carlos == otroCarlos);
-console.log(carlos === otroCarlos);
-```
-
-> Al comparar objetos en JavaScript se pregunta por la referencia a la variable que estamos utilizando, por lo que resulta ser falso.
-
-
-
-# ESTRUCTURAS DE CONTROL
-
-
-
 ### Condicionales
-
-
 
 **IF**
 
@@ -781,82 +581,7 @@ mayoriaEdad(carlos);
 
 
 
-### Arrow Function
-
-En JavaScript existe otra forma de escribir funciones, asignando a una variable una función:
-
-```javascript
-const esMayorDeEdad = fuction(persona){
-    
-}
-```
-
-> Estas funciones reciben el nombre de funciones anónimas pues no poseen un nombre pero si una variable asignada.
-
-
-
-Otra forma de escribir esto es mediante el uso de arrow function, de la siguiente manera:
-
-```javascript
-var carlos = {
-    nombre: 'Carlos',
-    apellido: 'Brignardello',
-    edad: 21,
-}
-
-var damaris = {
-    nombre: 'Damaris',
-    apellido: 'Bejar',
-    edad: 17,
-}
-
-const mayorDeEdad = (persona) => {
-    if(persona.edad >= 18 ){
-        console.log(`${persona.nombre} es mayor de 18 años`);
-    }
-    else{
-        console.log(`${persona.nombre} es menor de 18 años`);
-    }
-}
-
-mayorDeEdad(carlos);
-mayorDeEdad(damaris);
-```
-
-> Siempre que nos encontremos con la sintaxis de *VARIABLE => {.......}* lo entendemos como una función.
->
-> En este caso el resultado es:
->
-> Carlos es mayor de 18 años
-> Damaris es menor de 18 años
-
-
-
-Una ultima forma utilizando referencias:
-
-```javascript
-const MAYORIA_EDAD = 18;
-const mayorEdad = ({ edad }) => edad >= MAYORIA_EDAD;
-
-
-const esMayorDeEdad = (persona) => {
-    if(mayorEdad(persona)){
-        console.log(`${persona.nombre} es mayor de 18 años`);
-    }
-    else{
-        console.log(`${persona.nombre} es menor de 18 años`);
-    }
-}
-
-esMayorDeEdad(carlos);
-esMayorDeEdad(damaris);
-```
-
-
-
-### FOR
-
-
+**FOR**
 
 For permite realizar en forma repetitiva una cierta tarea.
 
@@ -905,7 +630,7 @@ console.log(`Al final del año ${carlos.nombre} pesa: ${carlos.peso.toFixed(1)}K
 
 
 
-### WHILE
+**WHILE**
 
 Podemos repetir un código hasta que se cumpla una condición mediante el ciclo While. En el ejemplo poseemos un programa que ejecuta un ciclo hasta que la clave peso del objeto "carlos" reduce en tres su valor inicial.
 
@@ -950,7 +675,7 @@ console.log(`Han pasado ${dias} dias para que ${carlos.nombre} adelgazara 3 KG`)
 
 
 
-### Do-While
+**Do-While**
 
 Se diferencia de While puesto que ejecuta al menos una vez un código especifico.
 
@@ -972,57 +697,3 @@ else{
 ```
 
 > En este ejemplo se obtiene la cantidad de veces que se ejecuta el ciclo con un cuarto de posibilidades.
-
-
-
-### Switch
-
-Con la estructura de control Switch se nos permite ejecutar un código de acuerdo a múltiples condiciones.
-
-```javascript
-var signo = prompt('¿Cual es tu signo? \n[Acuario|Piscis|Aries|Tauro|Géminis|Cáncer|Leo|Virgo|Libra|Escorpio|Sagitario|Capricornio]');
-console.log(`Tú signo es ${signo}`);
-
-switch (signo){
-    case'acuario':
-        console.log('Me enamoré de la vida, es la única que no me dejará sin antes yo hacerlo. – Pablo Neruda.')
-    break;
-    case'piscis':
-        console.log('Las palabras abren puertas sobre el mar. – Rafael Alberti.')
-    break;
-    case'aries':
-        console.log('Y he llegado a la conclusión de que si las cicatrices enseñan, las caricias también. – Mario Benedetti.')
-    break;
-    case'tauro':
-        console.log('El prejuicio es una carga que confunde el pasado, amenaza el futuro y hace inaccesible el presente. – Maya Angelou.')
-    break;
-    case'géminis':
-        console.log('Nada es real hasta que se experimenta, aún un proverbio no lo es hasta que la vida lo haya ilustrado. – John Keats.')
-    break;
-    case'cáncer':
-        console.log('Amurallar el propio sentimiento es arriesgarte a que te devore desde el interior. – Frida Khalo.')
-    break;
-    case'leo':
-        console.log('Requiere coraje crecer y convertirte en lo que realmente eres. – e.e cummings.') 
-    break;
-    case'virgo':
-        console.log('Es propio de aquellos con mentes estrechas embestir contra todo aquello que no les cabe en la cabez. – Antonio Machado.') 
-    break;
-    case'libra':
-        console.log('Parece, cuando se ama, que el mundo entero tiene rumor de primavera. – Juan Ramón Jiménez.') 
-    break;
-    case'escorpio':
-        console.log('La duda es uno de los nombres de la inteligencia. – Jorge Luis Borges.') 
-    break;
-    case'sagitario':
-        console.log('Muere lentamente quien no viaja, quien no oye música, quien no encuentra gracia en sí mismo. – Pablo Neruda.') 
-    break;
-    case'capricornio':
-        console.log('La perfección es una pulida colección de errores. – Mario Benedetti.')
-    default:
-        console.log('Eso no es un signo, verifica el dato que ingresaste')
-    break;
-}
-```
-
-> La función `prompt()` nos permite solicitar datos al usuario.

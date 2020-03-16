@@ -29,3 +29,62 @@ Podemos por ejemplo también ejecutar funciones con un prototipo mediante los da
 
 
 
+**Clases**
+
+JavaScript es el único lenguaje que maneja la herencia a base de prototipos. Sin embargo ahora con la llegada de las clases la forma en que estas se construyen para programar la herencia tradicional es muy similar.
+
+```js
+class Persona{
+	constructor(nombre){
+		this.nombre = nombre
+	}
+	
+	saludo(){
+		return `Hola, Soy ${this.name}.`
+	}
+}
+```
+
+```js
+Class Programador extends Persona{
+    saludo(){
+        return super.saludo() + ` Soy programador.`
+    }
+}
+
+let carlos = new Programador('Carlos Brignardello')
+carlos.saludar()
+```
+
+
+
+**Constructor**
+
+Ahora las clases tienen un nuevo método denominado `constructor` que se llama cuando una clase se inicia con la palabra clave `new`.
+
+> Las clases padre pueden ser referenciadas mediante `super()`.
+
+
+
+**Getters y Setters**
+
+Un getter se puede declarar de la siguiente forma:
+
+```js
+class Persona{
+    get fullName(){
+        return `${this.firstName} ${this.lastName}`
+    }
+}
+```
+
+Los setters se escriben de la misma forma:
+
+```js
+class Persona{
+	set age(years){
+	this.theAge = years
+	}
+}
+```
+

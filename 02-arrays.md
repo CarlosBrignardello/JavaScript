@@ -1,5 +1,14 @@
 # ARRAYS
 
+### Descripción
+
+* **Iterar listas**
+
+* **foreach**
+
+* **Filtrar elementos | filter**
+* **Construir .........**
+
 
 
 Son estructuras de datos que permiten agrupar datos dentro de una colección, posteriormente se podrán realizar una serie de acciones dentro de esa colección.
