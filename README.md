@@ -1,187 +1,46 @@
-# JAVASCRIPT
+# JavaScript
 
-### Descripción
+Este repositorio contiene todos los apuntes que he tomado acerca de JavaScript para el desarrollo Front End.
 
-Este documento contiene los siguientes conceptos:
 
-* **Actualizaciones ES6**
-  * Arrow Functions
-  * let | const
-  * Template Literal | `${expresión}`
-  * Funciones con valores por defecto
-  * Spread Operators
-  * Desestructuración de objetos
-  * Clases | Constructor
+
+### ÍNDICE
+
+El resto de información acerca de JavaScript se encuentra segmentado en el resto de documentos:
+
+1. [JavaScript](./README.md)
+
+2. [Listas y manejo de listas](./02-arrays.md)
+3. [Objetos y Clases](./03-clases-objetos.md)
+4. [DOM y Eventos](./04-DOM-eventos.md)
+5. [Asincronismo y API](./05-api-asincronismo.md)
+6. [ES6](./06-ES6.md)
+
+
+
+### CONTENIDO
+
 * **Variables**
 * **Strings**
+* **Números**
 * **Funciones**
-* **Objetos | Básicos**
 * **Condicionales**
 
-En los siguientes documentos mark down encontraras el resto del contenido.
+
+
+### VARIABLES
+
+**Tipos de variable**
+
+En JavaScript existen tres tipos de variable: `var`, `let` y `const`.
+
+* `var`: Las variables que utilizan `var` poseen un **scope de función** ya que **fuera de las funciones el scope es global y dentro de las funciones el scope es local** por lo que únicamente se pueden utilizar dentro de ellas. Incluso dentro de una función se puede modificar el valor de una variable que se encuentra fuera sin embargo esta solo cambiara dentro de la función, no fuera.
+* `let`: Se prefiere su uso por sobre `var`. Las variables con `let` poseen un **scope de bloque**, estas variables al ser declaradas **fuera de una función no poseen un alcance global y al ser declaradas dentro de una función solo operan dentro de un bloque** `{}`.
+* `const`: Las variables que utilizan `const` **son inmutables**, lo que quiere decir que no pueden ser modificadas, **posee el mismo scope que `let`**. Cuando se trabaja con arreglos, la constante no puede ser re asignada pero su contenido si.
 
 
 
-### ES6
-
-EcmaScript 6 es la versión más reciente de JavaScript. En ella se incluyen un montón de nuevas funcionalidades que serán descritas a continuación:
-
-
-
-**Arrow Functions**
-
-Las funciones flecha significaron un cambio en como las funciones de JavaScript funcionan y lucen. Esto es debido a que visualmente recibieron un cambio en comparación con las funciones originales, de:
-
-```js
-const info = function info(){
-	// ...
-}
-```
-
-a
-
-```js
-const info = () => {
-   // ...
-}
-```
-
-Si la función solo tiene una línea, se puede escribir de la siguiente forma:
-
-```js
-const info = params => console.log('Hola!')
-```
-
-
-
-**let y const**
-
-`var` era la forma convencional de declarar una variable y tiene un scope de función, es decir que puede modificar valores dentro y fuera de una función.
-
-`let` es una de las nuevas formas de declarar una variable que tiene un scope limitado de bloque, es decir que si se modifica dentro de una función esta no afectara a nada fuera de la misma.
-
-`const` es como `let` pero inmutable. Su valor no puede ser modificado durante ejecución.
-
-
-
-**Strings Template Literal**
-
-Ahora se pueden introducir expresiones al interior de strings mediante la siguiente sintaxis:
-
-```js
-const saludo = `Hola soy ${name}`
-const validar = `Validaciones:
-	1. No se aceptan campos vaciós
-	2. No se aceptan números.`
-```
-
-
-
-**Funciones con valores por defecto**
-
-```js
-const test = function(index = 0, testing = true) { 
-    // ...
-}
-test()
-```
-
-
-
-**Spread Operator**
-
-Es posible expandir un array, un objeto o un string utilizando el spread operator `...`
-
-Permite manejar todo el contenido de un elemento para pasárselo a otro:
-
-```js
-const frameworks = ['Angular', '"React"', 'Vue']
-const skills = [...frameworks, 'Java', 'Python'] // ['Angular', '"React"', 'Vue', 'Java', 'Python']
-```
-
-También es posible copiar el contenido completo de un elemento a otro para realizar operaciones seguras, sin reemplazar el contenido del elemento original.
-
-```js
-const lista = ['frutilla', 'avena']
-const desayuno = [...lista]
-```
-
-Es posible incluso crear un array de las letras separadas de un string facilmente.
-
-```js
-const hey = 'Carlos'
-const arrayized = [...hey] // ['C', 'a', 'r', 'l', 'o', 's']
-```
-
-Finalmente también se pueden asignar atributos a una función mediante los spread operators:
-
-```js
-const carta = (msg, autor) => {
-    `${msg}
-	by: ${autor}`
-}
-const msgCarlos = ['Hola que tal jejeje', 'Carlos B.']
-carta(...msgCarlos)
-```
-
-
-
-**Desestructurar objetos**
-
-De un objeto es posible extraer los valores necesarios y guardarlos en variables:
-
-```js
-const carlos = {
-	firstName: 'Carlos',
-	lastName: 'Brignardello',
-	job: 'Frontend Developer',
-	age: 21
-}
-
-const { firstName, age } = carlos
-console.log(firstName) // 'Carlos'
-console.log(age) // 21
-```
-
-
-
-**Elementos restantes y spread operators**
-
-Es posible desestructurar varios elementos de forma rápida con spread operators:
-
-```js
-const numeros = [1, 2, 3, 4, 5]
-[uno, dos, ...resto] = numeros
-console.log(uno) // 1
-console.log(dos) // 2
-console.log(resto) // [3, 4, 5]
-```
-
-Se puede hacer lo mismo con objetos:
-
-```js
-const { first, second, ...others } = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5
-}
-first // 1
-second // 2
-others // { third: 3, fourth: 4, fifth: 5 }
-```
-
-
-
-**Importar modulos**
-
-Ahora es posible importar mediante la sintaxis `import ... from ...`
-
-```js
-import React from 'react'
-```
-
-
-
-### Variables
-
-**Declarar Variables**
+**Declarar variables**
 
 Las variables pueden ser declaradas en forma simple
 
@@ -211,7 +70,7 @@ Podemos declarar variables e inmediatamente asignarles un valor
 let nombre = "Carlos Brignardello", nombre_corto = "Carlos";
 ```
 
-Estas pueden ser anidadas con otras funciones
+Estas pueden ser anidadas con otras variables.
 
 ```javascript
 console.log("Hola " + nombre);
@@ -221,11 +80,12 @@ console.log("Hola " + nombre);
 
 
 
-### Strings
+### STRINGS
 
 Los strings son cadenas de texto, estos pueden ser declarados de las siguientes formas:
 
 ```js
+const normal = 'Hola Carlos'
 const simple = 'Hola ' + name
 const doble = "Hey " + name
 const literal = `Hola ${name}`
@@ -293,7 +153,7 @@ var ultima = nombre_corto.charAt((nombre_corto.length) -1);
 
 
 
-### Números
+### NÚMEROS
 
 **Incrementar y decrementar una variable**
 
@@ -345,7 +205,15 @@ var total = parseFloat(totalNumeroDecimales);
 
 
 
-### Funciones
+**Tipos de resultado**
+
+**null**: Indica la ausencia de un valor.
+
+**undefined**: Indica la ausencia de un valor y que la variable no ha sido inicializada.
+
+
+
+### FUNCIONES
 
 **Definir y ejecutar funciones**
 
@@ -355,25 +223,13 @@ Para definir una función utilizamos la palabra clave `function` y posteriorment
 var nombre = 'Carlos', edad = 21;
 
 function mostrarDatos(){
-    console.log("DATOS" +
-                "\nNombre: " + nombre + 
-                "\nEdad: " + edad);
+	console.log(`Hola, soy ${nombre} y tengo ${edad} años.`)
 }
 
 mostrarDatos();
 ```
 
-> En este caso se definió una función que por consola muestra la información de una serie de variables. Para hacer funcionar la variable esta debe ser ejecutada como sucede al final del código.
-
-Otra forma de mostrar la misma información es la siguiente:
-
-```javascript
-var nombre = 'Carlos', edad = 21;
-
-console.log(`DATOS
-	Nombre: ${nombre}
-	Edad: ${edad}`);
-```
+> Para hacer funcionar la variable esta debe ser ejecutada como sucede al final del código.
 
 
 
@@ -382,11 +238,13 @@ console.log(`DATOS
 Es frecuente recurrir al uso de funciones con parámetros que serán definidos al ejecutar la función.
 
 ```javascript
-function mostrarEdad(x){
-    console.log(`La edad es: ${x}`)
+var nombre = 'Carlos', edad = 21;
+
+function mostrarDatos(name, age){
+	console.log(`Hola, soy ${name} y tengo ${age} años.`)
 }
 
-mostrarEdad(21);
+mostrarDatos(nombre, edad);
 ```
 
 
@@ -427,108 +285,7 @@ nombreMayusculas(nombre);
 
 
 
-### Objetos
-
-**Definir Objetos**
-
-No podemos tener dos variables con el mismo nombre y distinto contenido, pues estas se sobrescriben. En el caso que por ejemplo con la variable nombre quisiéramos definir varios nombres, como se ve a continuación.
-
-```javascript
-var nombre = 'Carlos';
-var nombre = 'Felix';
-var nombre = 'Damaris';
-```
-
-Un objeto reúne características que tienen en común elementos de la vida real que queremos representar en el programa. Es por eso que al objeto se le asignan ciertas características o atributos.
-
-Para definir un objeto lo hacemos de la siguiente manera:
-
-```javascript
-var nombreObjeto = {
-	nombre: 'Carlos',
-	apellido: 'Brignardello',
-	edad: 22,
-};
-```
-
-> Los objetos trabajan con un sistema de [clave: valor].
-
-
-
-**Trabajar con objetos**
-
-Podemos utilizar este objeto generado y utilizarlo como parámetro en uno de los ejemplos anteriores:
-
-```javascript
-var carlos = {
-    nombre: 'Carlos',
-	apellido: 'Brignardello',
-	edad: 21,
-};
-
-var felix = {
-    nombre: 'Felix',
-    apellido: 'Desconocido',
-    edad: 21,
-};
-
-function nombreMayusculas({ nombre }){
-    console.log(nombre.toUpperCase());
-}
-
-nombreMayusculas(carlos);
-nombreMayusculas(felix);
-nombreMayusculas({ nombre: "Sebastian" });
-```
-
-> Podemos acceder a los valores de los objetos poniendo el nombre del objeto seguido de un "." y la clave de la que queremos obtener su valor.
->
-> Sin embargo en las ultimas actualizaciones de JavaScript es posible definir en los parámetros la clave que queremos obtener y definir así toda la función, siendo necesario solo declarar como parámetro el nombre del objeto al ejecutar la función.
->
-> Es incluso posible predefinir la clave y el valor de un objeto en el momento.
-
-
-
-**Desestructurar objetos**
-
-Existe otra forma de hacer el ejemplo anterior para trabajar con objetos
-
-```javascript
-function nombreMayuscula( persona ){
-    var { nombre } = persona;
-    console.log(nombre.toUpperCase());
-}
-
-nombreMayusculas(carlos);
-nombreMayusculas(felix);
-nombreMayusculas({ nombre: "Sebastian" });
-```
-
-
-
-**Object Constructor**
-
-Tras las nuevas actualizaciones de JavaScript es posible generar objetos de una forma mucho más dinámica. 
-
-```js
-// Generar constructor
-function Tasks(name, time){
-	this.name = name
-	this.time = time
-}
-
-// Crear nuevo objeto
-const task_pan = new Tasks('Comprar Pan', '1 Hora')
-
-// Obtener valores
-console.log(task_pan.name)
-```
-
-> Se crea general a una función, como convención se nombran con mayúscula, estas permiten generar nuevos objetos con sus parámetros mediante el uso de la palabra clave `new`.
-
-
-
-### Condicionales
+### CONDICIONALES
 
 **IF**
 

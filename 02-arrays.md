@@ -1,33 +1,57 @@
-# ARRAYS
+#  ARRAYS
 
-### Descripción
+Las listas son estructuras de datos que permiten agrupar información dentro de una colección para posteriormente realizar una serie de acciones dentro de esa colección.
+
+
+
+### ÍNDICE
+
+El resto de información acerca de JavaScript se encuentra segmentado en el resto de documentos:
+
+1. [JavaScript](./README.md)
+
+2. [Listas y manejo de listas](./02-arrays.md)
+3. [Objetos y Clases](./03-clases-objetos.md)
+4. [DOM y Eventos](./04-DOM-eventos.md)
+5. [Asincronismo y API](./05-api-asincronismo.md)
+6. [ES6](./06-ES6.md)
+
+
+
+### CONTENIDO
 
 * **Iterar listas**
 
-* **foreach**
-
-* **Filtrar elementos | filter**
+* **Filter()**
 * **Construir .........**
 
 
 
-Son estructuras de datos que permiten agrupar datos dentro de una colección, posteriormente se podrán realizar una serie de acciones dentro de esa colección.
 
 
+### OPERAR LISTAS
 
-**Declarar array**
+**Declarar Array**
 
 La sintaxis para declarar un array es la siguiente.
 
 ```javascript
-var personas = ["carlos", "damaris", "ale", "cristian"];
+var personas = ["carlos", "damaris", "camila", 'gloria'];
+var unos = Array(6).fill(1)		// Genera 6 veces el número 1.
 ```
 
-> Pueden ser almacenados en su interior incluso objetos.
+
+
+**Conocer largo de un Array**
+
+```js
+let letras = ['a', 'b', 'c', 'd', 'e']
+console.log(letras.length) // Devuelve 5
+```
 
 
 
-**Obtener datos de un array**
+**Obtener datos de un Array**
 
 Para obtener los datos de un array se puede utilizar cualquiera de los siguientes métodos:
 
@@ -39,40 +63,134 @@ console.log(personas[0]['apellido'])
 
 
 
-**Recorrer un array**
+**Añadir elemento al final de una lista**
+
+```js
+lista.push('Juan')
+```
+
+
+
+**Añadir elemento al comienzo de una lista**
+
+```js
+lista.unshift(0)
+```
+
+
+
+**Eliminar elemento del final de una lista**
+
+```js
+lista.pop()
+```
+
+> detalles.......
+
+
+
+**Elimina elemento desde el comienzo**
+
+```js
+lista.shift()
+```
+
+
+
+**Obtener parte de una lista**
+
+```js
+lista.splice(1, 4) // Obten los valores desde el indice 1 hasta el 4.
+```
+
+
+
+**Obtener x valores desde x índice**
+
+```js
+lista.splice(0, 2) // Obten los dos primeros valores.
+lista.splice(3, 2) // Obtiene dos valores comenzando por el indice 3.
+```
+
+
+
+**Reemplazar valores**
+
+```js
+lista.splice(0, 2, 2, 'cero', 'uno') // Eliminamos los primeros dos valores y agregamos dos nuevos.
+```
+
+
+
+**Ubicar primera posición de un elemento en una lista**
+
+```js
+lista.indexOf('Sandia')  // Devolvera el indice donde se encontro el objeto por primera vez.
+```
+
+
+
+**Ubicar última posición de un elemento en una lista**
+
+```js
+lista.lastIndexOf('Sandia')  // Devolvera el indice donde se encontro el objeto por última vez.
+```
+
+
+
+**Saber si existe un valor en una lista**
+
+```js
+lista.includes(valor)
+```
+
+
+
+**Ordenar valores de una lista de menor a mayor**
+
+```js
+const lista = [1, 20, 15, 4, 13]
+lista.sort()  // Devuelve [1, 4, 13, 15, 20]
+```
+
+
+
+**Invertir valores de una lista**
+
+```js
+const lista = [1, 20, 15, 4, 13]
+lista.reverse()  // Devuelve [20, 15, 13, 3, 1]
+```
+
+
+
+**Convertir lista en String**
+
+```js
+const nombre = ['c', 'a', 'r', 'l', 'o', 's']
+nombre.toString()  // Convierte 'c,a,r,l,o,s'
+```
+
+
+
+**Convertir lista en String con formato**
+
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var x = fruits.join(' '); // Convierte "Banana Orange Apple Mango"
+```
+
+
+
+**Recorrer un Array**
 
 Para recorrer un array podemos utilizar idealmente un ciclo for.
 
 ```javascript
-var carlos = {
-    nombre: 'Carlos',
-    apellido: 'Brignardello',
-    edad: 21
-}
+var animales = [gato, perro, ninfa, tigre, cocodrilo, buho];
 
-var damaris = {
-    nombre: 'Damaris',
-    apellido: 'Bejar',
-    edad: 21
-}
-
-var ale = {
-    nombre: 'Ale',
-    apellido: 'Añazco',
-    edad: 23
-}
-
-var cristian = {
-    nombre: 'Cristian',
-    apellido: 'Glausser',
-    edad: 22
-}
-
-var personas = [carlos, damaris, ale, cristian];
-
-for(var i = 0; personas.length ; i++){
-    var persona = personas[i];
-    console.log(`${persona.nombre} tiene ${persona.edad} años`)
+for(let i = 0; personas.length ; i++){
+    console.log(animales[i])
 }
 ```
 
@@ -90,27 +208,17 @@ lenguages.forEach(element => {
 
 
 
-### Filtrar elementos de un array - *filter()*
+
+
+### FILTER()
+
+........
 
 **Filtrar todos los elementos de una lista**
 
 ```javascript
-const personas = [
-    {name: 'Juan', age: 17, class: 'JavaScript'},
-    {name: 'Carlos', age: 21, class: 'ReactJS'},
-    {name: 'Alexandra', age: 15, class: 'Arte'},
-    {name: 'Damaris', age: 21, class: 'Bases de datos'},
-    {name: 'Miguel', age: 15, class: 'Redes'}
-]
-
-console.log(personas)
-
-personas.filter(persona => {
-    console.log(persona)
-})
+*****
 ```
-
-> En este caso mostramos todos los objetos por separado.
 
 
 
@@ -118,11 +226,7 @@ personas.filter(persona => {
 
 ```js
 const personas = [
-    {name: 'Juan', age: 17, class: 'JavaScript'},
-    {name: 'Carlos', age: 21, class: 'ReactJS'},
-    {name: 'Alexandra', age: 15, class: 'Arte'},
-    {name: 'Damaris', age: 21, class: 'Bases de datos'},
-    {name: 'Miguel', age: 15, class: 'Redes'}
+***********************************
 ]
 
 console.log(personas)
@@ -143,145 +247,46 @@ console.log(mayores)
 Para poder filtrar se requiere de dos cosas, un array y una condición o función.
 
 ```javascript
-var carlos = {
-    nombre: 'Carlos',
-    apellido: 'Brignardello',
-    edad: 21,
-    altura: 1.68
-}
-
-var damaris = {
-    nombre: 'Damaris',
-    apellido: 'Bejar',
-    edad: 21,
-    altura: 1.65
-}
-
-var ale = {
-    nombre: 'Ale',
-    apellido: 'Añazco',
-    edad: 23,
-    altura: 1.65
-}
-
-var cristian = {
-    nombre: 'Cristian',
-    apellido: 'Glausser',
-    edad: 22,
-    altura: 1.75
-}
-
-const esAlta = ({ altura }) => altura > 1.7
-const esChiquito = ({ altura }) => altura < 1.7
-
-var personas = [carlos, damaris, ale, cristian];
-var personasAltas = personas.filter(esAlta);
-var personasBajas = personas.filter(esChiquito);
-
-console.log(personasAltas);
-console.log(personasBajas);
+****
 ```
 
 > Con la función `filter()` devolvemos un array nuevo en base al parámetro introducido.
 
 
 
-### Encontrar elementos de un Array - *find()*
+### FIND()
+
+......
+
+**......**
 
 ```js
-const personas = [
-    {name: 'Juan', age: 17, class: 'JavaScript'},
-    {name: 'Carlos', age: 21, class: 'ReactJS'},
-    {name: 'Alexandra', age: 15, class: 'Arte'},
-    {name: 'Damaris', age: 21, class: 'Bases de datos'},
-    {name: 'Miguel', age: 15, class: 'Redes'}
-]
-
-console.log(personas)
-
-const damaris = personas.find(persona => {
-    return persona.name === 'Damaris'
-})
-
-console.log(`${damaris.name} esta aprendiendo ${damaris.class}.`)
+***********
 ```
 
 > De esta forma podemos acceder al objeto que buscamos mediante una nueva variable.
 
 
 
-### map
 
 
+### MAP()
+
+......
 
 **Transformar arrays**
 
 La función `map()` nos devuelve un nuevo array que modificara cada elemento que introduzcamos del array original.
 
 ```javascript
-var carlos = {
-    nombre: 'Carlos',
-    apellido: 'Brignardello',
-    edad: 21,
-    altura: 1.68
-}
-
-var damaris = {
-    nombre: 'Damaris',
-    apellido: 'Bejar',
-    edad: 21,
-    altura: 1.65
-}
-
-var ale = {
-    nombre: 'Ale',
-    apellido: 'Añazco',
-    edad: 23,
-    altura: 1.65
-}
-
-var cristian = {
-    nombre: 'Cristian',
-    apellido: 'Glausser',
-    edad: 22,
-    altura: 1.75
-}
-
-/*
-const esAlta = ({ altura }) => altura > 1.7
-const esChiquito = ({ altura }) => altura < 1.7
-const pasarAlturaACms = ( persona ) =>{
-    return {
-        ...persona,
-        altura: persona.altura * 100
-    }
-}
-*/
-
-const esAlta = ({ altura }) => altura > 1.7
-const esChiquito = ({ altura }) => altura < 1.7
-const pasarAlturaACms = ( persona ) =>({
-        ...persona,
-        altura: persona.altura * 100
-})
-
-
-var personas = [carlos, damaris, ale, cristian];
-var personasAltas = personas.filter(esAlta);
-var personasBajas = personas.filter(esChiquito);
-
-var personasCms = personas.map(pasarAlturaACms);
-
-console.log(personasAltas);
-console.log(personasBajas);
-console.log(personasCms);
+*******
 ```
 
 > Lo que hace este código es añadir un nuevo array con unos de sus elementos modificados.
 
 
 
-### Reducir un Array a un solo elemento - *reduce()*
+### REDUCE()
 
 Existe otra función común para trabajar con Arrays que es reducir los valores de un array a un valor único.
 
