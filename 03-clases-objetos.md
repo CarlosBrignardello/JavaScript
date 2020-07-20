@@ -26,6 +26,188 @@ El resto de información acerca de JavaScript se encuentra segmentado en el rest
 
 
 
+
+
+### OBJETOS
+
+**Definir un Objeto**
+
+Para definir un objeto lo hacemos de la siguiente manera:
+
+```javascript
+let nombreObjeto = {
+	nombre: 'Carlos',
+	apellido: 'Brignardello',
+	edad: 22,
+};
+```
+
+> Los objetos trabajan con un sistema de [clave: valor].
+
+
+
+**Operar Objeto**
+
+```js
+let objeto = {
+    nombre: 'Carlos',
+	apellido: 'Brignardello',
+	edad: 21,
+};
+
+console.log( objeto )
+console.log('Nombre', objeto.nombre)
+console.log('Soy', objeto['nombre'])
+```
+
+> Al pasar por consola un objeto este se ve muestra completo. Y mediante los otros dos métodos es posible obtener la información contenida en un objeto. La última alternativa permite manejar claves con nombres especiales como por ejemplo `objeto['cuenta-rut']`.
+
+
+
+**Eliminar clave de un objeto**
+
+```js
+delete objeto.nombre
+```
+
+
+
+**Ingresar valor a un objeto**
+
+```js
+objeto.soltero = true
+```
+
+> Aunque el objeto este definido como `const` se podrá ingresar el valor de todas formas. 
+
+
+
+**Asignar variables con una función**
+
+```js
+const crearDatos = (name, lastName) => ( {name, lastName} )
+const persona = crearDatos('Carlos', 'Brignardello')
+console.log(persona)
+
+// De la propiedad lastName creamos una variable llamada newLastName
+const { lastName: newLastName } = crearDatos('Carlos', 'Cerda')
+console.log({ newLastName })
+```
+
+
+
+**Métodos útiles**
+
+```js
+// Invalidar la inyección de claves y valores (Los valores internos de una clave pueden ser modificados.)
+Object.freeze( objeto )
+
+// Obtener pares de clave valor
+const entriesPares = Object.entries( objeto )
+console.log( entriesPares )
+console.log( entriesPares[0][0] )
+
+// Obtener claves en formato de Array
+const propiedades = Object.getOwnPropertyNames( objeto )
+console.log({ propiedades })
+
+// Obtener valores en formato de Array
+const valores = Object.values( objeto )
+console.log({ valores })
+
+// Obtener ambos
+const propiedades = Object.getOwnPropertyNames( objeto )
+const valores = Object.values( objeto )
+console.log({ propiedades, valores })
+```
+
+
+
+**Trabajar con objetos**
+
+Podemos utilizar este objeto generado y utilizarlo como parámetro en uno de los ejemplos anteriores:
+
+```javascript
+let objeto = {
+    nombre: 'Carlos',
+	apellido: 'Brignardello',
+	edad: 21,
+};
+
+function nombreMayusculas({ nombre }){
+    console.log(nombre.toUpperCase());
+}
+
+nombreMayusculas( objeto );
+nombreMayusculas({ nombre: "Damaris" });
+```
+
+> Podemos acceder a los valores de los objetos poniendo el nombre del objeto seguido de un "." y la clave de la que queremos obtener su valor.
+>
+> Sin embargo en las ultimas actualizaciones de JavaScript es posible definir en los parámetros la clave que queremos obtener y definir así toda la función, siendo necesario solo declarar como parámetro el nombre del objeto al ejecutar la función.
+>
+> Es incluso posible predefinir la clave y el valor de un objeto en el momento.
+
+
+
+**Desestructurar objetos**
+
+```javascript
+let persona = {
+    nombre: 'Carlos',
+	apellido: 'Brignardello',
+	edad: 21,
+};
+
+const mostrarDatos = ({ nombre, apellido, edad }) => {
+    console.log({nombre})
+    console.log({apellido})
+    console.log({edad})
+}
+
+mostrarDatos(persona)
+```
+
+
+
+**Object Constructor**
+
+Tras las nuevas actualizaciones de JavaScript es posible generar objetos de una forma mucho más dinámica. 
+
+```js
+// Generar constructor
+function Tasks(name, time){
+	this.name = name
+	this.time = time
+}
+
+// Crear nuevo objeto
+const task_pan = new Tasks('Comprar Pan', '1 Hora')
+
+// Obtener valores
+console.log(task_pan.name)
+```
+
+> Se crea general a una función, como convención se nombran con mayúscula, estas permiten generar nuevos objetos con sus parámetros mediante el uso de la palabra clave `new`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### CLASES
 
 **Definir una clase**
@@ -120,111 +302,6 @@ console.log(carlos.name) // Utilizamos el Getter
 
 
 
-
-
-
-# -- PENDIENTE --
-
-
-
-### OBJETOS
-
-**Definir Objetos**
-
-No podemos tener dos variables con el mismo nombre y distinto contenido, pues estas se sobrescriben. En el caso que por ejemplo con la variable nombre quisiéramos definir varios nombres, como se ve a continuación.
-
-```javascript
-var nombre = 'Carlos';
-var nombre = 'Felix';
-var nombre = 'Damaris';
-```
-
-Un objeto reúne características que tienen en común elementos de la vida real que queremos representar en el programa. Es por eso que al objeto se le asignan ciertas características o atributos.
-
-Para definir un objeto lo hacemos de la siguiente manera:
-
-```javascript
-var nombreObjeto = {
-	nombre: 'Carlos',
-	apellido: 'Brignardello',
-	edad: 22,
-};
-```
-
-> Los objetos trabajan con un sistema de [clave: valor].
-
-
-
-**Trabajar con objetos**
-
-Podemos utilizar este objeto generado y utilizarlo como parámetro en uno de los ejemplos anteriores:
-
-```javascript
-var carlos = {
-    nombre: 'Carlos',
-	apellido: 'Brignardello',
-	edad: 21,
-};
-
-var felix = {
-    nombre: 'Felix',
-    apellido: 'Desconocido',
-    edad: 21,
-};
-
-function nombreMayusculas({ nombre }){
-    console.log(nombre.toUpperCase());
-}
-
-nombreMayusculas(carlos);
-nombreMayusculas(felix);
-nombreMayusculas({ nombre: "Sebastian" });
-```
-
-> Podemos acceder a los valores de los objetos poniendo el nombre del objeto seguido de un "." y la clave de la que queremos obtener su valor.
->
-> Sin embargo en las ultimas actualizaciones de JavaScript es posible definir en los parámetros la clave que queremos obtener y definir así toda la función, siendo necesario solo declarar como parámetro el nombre del objeto al ejecutar la función.
->
-> Es incluso posible predefinir la clave y el valor de un objeto en el momento.
-
-
-
-**Desestructurar objetos**
-
-Existe otra forma de hacer el ejemplo anterior para trabajar con objetos
-
-```javascript
-function nombreMayuscula( persona ){
-    var { nombre } = persona;
-    console.log(nombre.toUpperCase());
-}
-
-nombreMayusculas(carlos);
-nombreMayusculas(felix);
-nombreMayusculas({ nombre: "Sebastian" });
-```
-
-
-
-**Object Constructor**
-
-Tras las nuevas actualizaciones de JavaScript es posible generar objetos de una forma mucho más dinámica. 
-
-```js
-// Generar constructor
-function Tasks(name, time){
-	this.name = name
-	this.time = time
-}
-
-// Crear nuevo objeto
-const task_pan = new Tasks('Comprar Pan', '1 Hora')
-
-// Obtener valores
-console.log(task_pan.name)
-```
-
-> Se crea general a una función, como convención se nombran con mayúscula, estas permiten generar nuevos objetos con sus parámetros mediante el uso de la palabra clave `new`.
 
 
 

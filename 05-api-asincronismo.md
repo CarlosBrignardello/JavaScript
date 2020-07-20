@@ -59,8 +59,6 @@ console.log('#4 Ejecución sincrona')
 
 
 
-
-
 ### Promesas
 
 Las promesas permiten lidiar con el código asíncrono evitando generar varias callbacks. Estas comienzan en un estado *pendiente*. Esto es debido a que la función que la llama continua el resto de ejecuciones y espera a que la promesa retorne un estado, sea este `resolve` o `rejected`.
@@ -72,22 +70,27 @@ Las promesas permiten lidiar con el código asíncrono evitando generar varias c
 Para crear una promesa se debe generar un constructor de promesa, que se inicializa mediante la palabra clave `new Promise()`.  En su interior podemos devolver dos valores uno de respuesta y otro  de rechazo, estos valores se declaran mediante `resolve `| `reject.`
 
 ```js
-let estado = true
+const apellidos = {
+  carlos: 'Brignardello',
+  damaris: 'Bejar'
+}
 
-const promesa = new Promise((resolve, reject) => {
-  if (estado) {
-    const exito = 'Todo bien, todo correcto...'
-    resolve(exito)
-  } else {
-    const fracaso = 'Todo mal, todo pesimo...'
-    reject(fracaso)
-  }
-})
+const buscarApellidos = ( id ) => {
+
+  return new Promise( ( resolv, reject ) => {
+    if( id ){
+      resolv( id )
+    }
+    else {
+      reject(`No existe`)
+    }
+  })
+}
 ```
 
-> Esta promesa revisa si el valor de `estado` es correcto y devuelve una promesa `resuelta`.
+> Esta promesa revisara si se cumple la condición. En caso contrario devolverá el error `No existe`.
 
-Utilizando `resolve` y `reject` podemos comunicar un valor, siendo resolve la respuesta y refect el mensaje de error.
+Utilizando `resolve` y `reject` podemos comunicar un valor, siendo resolve la respuesta y reject el mensaje de error.
 
 
 
@@ -96,17 +99,8 @@ Utilizando `resolve` y `reject` podemos comunicar un valor, siendo resolve la re
 Para consumir una promesa debemos ejecutar una función que evaluara si la petición fue aceptada o rechazada, mediante la sintaxis `then | catch`.
 
 ```js
-const revisarEstado = new Promise()
-	//...
-
-// Ejecutamos cuando se valide una petición.
-revisarEstado.then(res => {
-    console.log(`EXITO: ${res}`)
-})
-
-// Ejecutamos cuando falle una petición.
-revisarEstado.catch(err => {
-    console.log(`ERROR: ${err}`)
+buscarApellidos( apellidos.carlos ).then( lastname => {
+  console.log(`La persona de apellido '${lastname}'. Si existe!`)
 })
 ```
 
@@ -114,120 +108,261 @@ Al consumir la promesa estamos ejecutando como tal la promesa que creamos anteri
 
 
 
+**Anidar promesas**
+
+```js
+buscarApellidos( apellidos.carlos ).then( lastname => {
+  buscarApellidos( apellidos.damaris ).then( lastname2 => {
+    console.log(`Los apellidos '${lastname}' y '${lastname2}' si existen!`)
+  })
+})
+```
+
+
+
+**Anidar promesas con Promise.all**
+
+```js
+Promise.all([buscarApellidos(apellidos.carlos), buscarApellidos(apellidos.damaris)]).then( ([val1, val2]) => {
+  console.log(`Los apellidos '${val1}' y '${val2}' si existen!`)
+})
+```
+
+> Resuelve todas las promesas contenidas en su interior. Resuelve en forma abreviada lo mismo que el ejemplo anterior.
+
+
+
+**Errores en las promesas**
+
+```js
+const apellidos = {
+  carlos: 'Brignardello',
+  damaris: 'Bejar'
+}
+
+const buscarApellidos = ( id ) => {
+
+  return new Promise( ( resolv, reject ) => {
+    if( id ){
+      resolv( id )
+    }
+    else {
+      reject(`No existe`)
+    }
+  })
+}
+
+buscarApellidos( apellidos.carlossssssss )
+  .then( () => {
+    console.log('Si existe!')
+}).catch( err => {
+  alert(err)
+})
+
+// Se puede agregar el .finally( () => {}) para realizar una tarea adicional al final de la promesa, como limpiar.
+```
+
+> Mediante catch podemos manejar un error, en si podemos manejar el mensaje definido en el reject.
+
 
 
 ### Async Await
 
-JavaScript evoluciono el manejo del asincronismo del **callback** a las **promesas** y más recientemente se incorporo la sintaxis `async` / `await` que simplifico aún más el desarrollo.
+JavaScript evoluciono el manejo del asincronismo del **callback** a las **promesas** y más recientemente se incorporo la sintaxis `async` / `await` que simplifico aún más el desarrollo y la implementación de una promesa.
 
-La última forma de generar tareas asíncronas y también, la más sencilla y clara es mediante Async-await.
+La última forma de generar tareas asíncronas y también, la más sencilla y clara es mediante Async-await. Que permite realizar lo mismo que se hizo con promesas pero de una forma más breve.
+
+
+
+**Generar promesa**
 
 ```javascript
+const apellidos = {
+  carlos: 'Brignardello',
+  damaris: 'Bejar'
+}
 
+const buscarApellido = async ( id ) => {
+  const apellido = apellidos[id]
+
+  if( apellido ){
+    return apellido
+  } else{
+    throw `No existe el apellido de ${id}`
+  }
+}
 ```
 
-> SSSS
+> A la función que devuelve una promesa le agregamos antes de los argumentos la palabra `async`.
 
 
 
-
-
-### Comparación [Callback - Promesa - Async|Await]
-
-En los ejemplos se simulan el manejo de las peticiones de los usuarios en un servidor de node.js para poder responder.
-
-
-
-**Callback**
+**Manejar promesa**
 
 ```js
-// Manejador de petición que recibe la petición y la respuesta.
-function requestHandler(req, res) {
-  // Consultamos un ID en un modelo, según la petición del usuario.
-  // Al añadir una función se espera por la respuesta, siendo la consulta o un error.
-  User.findById(req.userId, function(err, user) {
-    // Validamos
-    if (err) {
-      res.send(err);
-    // Si funciona buscamos en el modelo de tareas.
-    } else {
-      Tasks.findById(user.tasksId, function (err, tasks) {
-        if (err) {
-          return res.send(err);
-        // Si funciona modificamos las tareas.
-        } else {
-          tasks.completed = true;
-          // Esperamos la respuesa al incluir una función.
-          tasks.save(function(err) {
-            if (err) {
-              return res.send(err);
-            } else {
-              // Si todo funciona enviamos un mensaje.
-              res.send('Task Completed');
-            }
-          });
-        }
-      });
+buscarApellido('carlos2')
+  .then( id => console.log(id) )
+  .catch( err => console.warn(err) )
+
+// Alternativa
+buscarApellido('carlos')
+  .then( console.log )
+  .catch( console.warn )
+```
+
+> Si nos equivocamos mostramos el mensaje de error.
+
+
+
+**Await**
+
+Permite esperar los resultados o la resolución de una promesa para poder manejar los resultados.
+
+```js
+// Objeto de apellidos
+const apellidos = {
+  carlos: 'Brignardello',
+  damaris: 'Bejar'
+}
+
+// Promesa que devuelve el apellido según el nombre
+const buscarApellido = async ( id ) => {
+  const apellido = apellidos[id]
+
+  if( apellido ){
+    return apellido
+  } else{
+    throw `No existe el apellido de ${id}`
+  }
+}
+
+// Función que recibe nombres y devuelve apellidos
+const nameToLastname = async( ...nombres ) => {
+  const apellidos = []
+
+  for( let id of nombres ){
+    const apellido = await buscarApellido( id )
+    apellidos.push( apellido ) 
+  }
+
+  return apellidos
+}
+
+// Llamamos a la función con dos nombres
+nameToLastname('carlos', 'damaris')
+  .then( console.table )
+```
+
+> En base a los ejemplos anteriores implementamos una función denominada `nameToLastname` que recibe nombres y devuelve apellidos si es que estos se encuentran en el objeto de apellidos. Lo que hace es esperar mediante `await` para obtener el retorno de la promesa `buscarApellido` y rellenar un Array con él para finalmente mostrarlo por consola. El `await` es necesario pues debemos esperar a que la promesa se cumpla y se ejecute para ingresar el valor devuelto al Array. 
+
+
+
+**Await en paralelo**
+
+Si quisiéramos replicar el ejemplo anterior pero agregando un tiempo de espera forzado de 1s por cada petición de promesa. Acabaríamos tardando tres segundos en regresar todas las peticiones, existe una forma de resolverlas todas en paralelo y esperar un segundo en total.
+
+```js
+const nameToLastname = async( ...nombres ) => {
+  const apellidos = []
+
+  for( let id of nombres ){
+    apellidos.push(buscarApellido( id ))
+  }
+
+  // Esperamos simultaneamente por todas las promesas.
+  return await Promise.all(apellidos)
+}
+
+// Llamamos a la función con dos nombres
+nameToLastname('carlos', 'damaris')
+  .then( console.table )
+```
+
+> El tip básicamente es nunca definir un `await` dentro de un ciclo for.
+
+
+
+**Await mejorado**
+
+Es posible reducir las líneas de código para realizar lo mismo mediante ES6.
+
+```js
+// Espera a que todas las promesas se resuelvan
+const nameToLastname = async( ...nombres ) => {
+  return await Promise.all(nombres.map( buscarApellido ))
+}
+
+// Llamamos a la función con dos nombres
+nameToLastname('carlos', 'damaris')
+  .then( console.table )
+```
+
+
+
+**Manejo de errores**
+
+```js
+// Espera a que todas las promesas se resuelvan
+const nameToLastname = async( ...nombres ) => {
+  try{
+    return await Promise.all(nombres.map( buscarApellido ))
+  }
+  catch(err){
+    console.log('El nombre ingresado a la función nameToLastname no es valido')
+    throw err
+  }
+}
+```
+
+> Los errores los manejamos mediante `try - catch`. De esta forma el retorno de la función será el error especificado. Para ello debemos declarar siempre `throw err`. 
+
+
+
+**Devolver error personalizado**
+
+```js
+// Espera a que todas las promesas se resuelvan
+const nameToLastname = async( ...nombres ) => {
+  try{
+    return await Promise.all(nombres.map( buscarApellido ))
+  }
+  catch(err){
+    console.log('El nombre ingresado a la función nameToLastname no es valido')
+    return {
+      nombre: 'Sin apellido'
     }
-  });
-}
-```
-
-> La petición en si es muy sencilla pero al manejarla mediante callbacks se genera mucho código lo que lo vuelve difícil de mantener.
-
-
-
-**Promesa**
-
-```js
-function requestHandler(req, res) {
-  User.findById(req.userId)
-    // Utilizamos .then para esperar la respuesta y manejarla.
-    .then(function (user) {
-      return Tasks.findById(user.tasksId)
-    })
-    // Al terminar el primer .then pasamos al segundo.
-    .then(function (tasks) {
-      tasks.completed = true;
-      return tasks.save();
-    })
-    // Al terminar el .then anterior pasamos.
-    .then(function () {
-      res.send('Tasks Completed!');
-    })
-    // con .cath manejamos todos los errores que pudieron ocurrir en la consulta.
-    .catch(function (errors) {
-      res.send(erros);
-    });
-}
-```
-
-> Las promesas simplifican mucho más el código al existir un único manejador de los errores, al mismo tiempo vuelve más ordenado el código.
-
-
-
-**Async Await**
-
-```js
-// Al manejar operaciones asincronicas utilizamos la palabra clave async.
-async function requestHandler(req, res) {
-  // Intentamos ejecutar el código.
-  try {
-    // Ejecutamos todas las operaciones requeridas y anteponemos la palabra clave await en las que se deba esperar una respuesta.
-    const user = await User.findById(req.userId);
-    const tasks = await Tasks.findById(user.tasksId);
-    tasks.completed = true;
-    await tasks.save();
-    res.send('Tasks Saved');
-  }
-  // Si existe un error lo capturamos.
-  catch (e) {
-    res.send(e);
   }
 }
 ```
 
-> Mediante Async-Await es muchísimo más fácil manejar las peticiones, el código se reduce y es simple de mantener.
+> De esta forma podemos devolver un valor adicional si nuestra petición fallo para complementar en caso de error.
+
+
+
+**for await **
+
+```js
+const apellidoCiclo = async () => {
+    for await(const apelido of apellidosArray ){
+        ...
+    }
+}
+    
+// Lo mismo
+    
+const apellidos = await Promise.all( apellidosArray )
+```
+
+> Lo mismo ocurre con if.
+>
+
+
+
+
+
+### Peticiones HTTP
+
+Las peticiones son el estándar para obtener información desde internet de un back end. Todas ellas se obtienen en un formato JSON. La forma más común de manejar información es mediante el consumo de una API. Las peticiones se centralizan en una ruta tipo: `js/provider.js`
 
 
 
@@ -243,29 +378,90 @@ Sus siglas significan básicamente JavaScript Asíncrono y XML. En Ajax se progr
 
 Es un nuevo estándar que entrega una alternativa para interactuar con el protocolo HTTP. Se basa en promesas, esta disponible también en **node**.
 
-```js
-const url = 'https://pokeapi.co/api/v2/pokemon/1/'
+> Si hay problemas con CORS instalar la extensión de chrome:
+>
+> * https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc
 
-fetch(url)
-.then(response => response.json())
-.then(data => {
-  console.log(data)
-})
-.catch(err => console.log(err))
+
+
+**Realizar petición con URL**
+
+```js
+const URL = 'https://api.chucknorris.io/jokes/random'
+
+fetch( URL )
+  .then( resp => {
+    console.log( resp )
+  })
 ```
 
-https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Utilizando_Fetch
+> De esta forma solo podemos ver el objeto por consola.
 
 
+
+**Obtener valores de la petición con JSON**
+
+```js
+const URL = 'https://api.chucknorris.io/jokes/random'
+
+fetch( URL )
+  .then( resp => {
+    resp.json().then( data => {
+      console.log(data)
+    })
+  })
+
+// De estructurar data
+const URL = 'https://api.chucknorris.io/jokes/random'
+
+fetch( URL )
+  .then( resp => {
+    resp.json().then( ({ id, value }) => {
+      console.log(id)
+      console.log(value)
+    })
+  })
+
+// Versión acordatada
+const URL = 'https://api.chucknorris.io/jokes/random'
+
+fetch( URL )
+  .then( resp => resp.json() )
+  .then( ({ value }) =>  console.log(value) )
+```
+
+> Ahora la data si es manejable y podemos operar la información contenida como queramos.
+
+
+
+**Peticiones con funciones**
+
+```js
+const URL = 'https://api.chucknorris.io/jokes/random'
+
+const obtenerValor = async() => {
+  try{
+    const resp = await fetch( URL )
+
+    if( !resp.ok ) throw `No se pudo realizar la petición`
+    const { icon_url, id, value } =  await resp.json()
+    return { icon_url, id, value}  
+  }
+  catch(err){
+    throw err
+  }
+}
+
+obtenerValor()
+.then( console.log )
+```
+
+> Gracias a la exportación e importación de funciones se pueden centralizar las llamadas HTTP. 
+
+
+
+**CRUD**
 
 
 
 **Axios**
-
-
-
-
-
-
-
-**JQuery**

@@ -233,6 +233,22 @@ mostrarDatos();
 
 
 
+**Función segura**
+
+```js
+// Función que puede ser re-asignada
+function saludar(){
+    console.log('Hola Mundo')
+}
+
+// Función segura
+const saludar2 = function(){
+    console.log('Hola Muno')
+}
+```
+
+
+
 **Función con parámetros**
 
 Es frecuente recurrir al uso de funciones con parámetros que serán definidos al ejecutar la función.
@@ -282,6 +298,26 @@ nombreMayusculas(nombre);
 ```
 
 > Función con alcance LOCAL.
+
+
+
+**Revisar que funcionalidad es más eficiente**
+
+```js
+const frutas = ['Manzana', 'Platano', 'Naranja']
+
+console.time('slice')
+const otrasFrutas = frutas.slice()
+console.timeEnd('slice')
+
+console.time('spread')
+const otrasFrutas2 = [...frutas]
+console.timeEnd('spread')
+
+otrasFrutas.push('Mango')
+
+console.table({ frutas, otrasFrutas})
+```
 
 
 

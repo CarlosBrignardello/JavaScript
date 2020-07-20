@@ -158,6 +158,26 @@ select.classList.remove('vacio')
 
 
 
+**Validar que exista una clase**
+
+```js
+if(e.target.className === 'clase-x'){
+    // Haz algo
+}
+```
+
+
+
+**Validar que exista una clase entre muchas clases**
+
+```js
+if(e.target.classList.contains('clase-x')){
+    // Haz algo
+}
+```
+
+
+
 
 
 
@@ -223,7 +243,11 @@ const contenido = document.querySelector('img').getAttribute('src')
 
 
 
+**Agregar etiqueta**
 
+```js
+document.querySelector('.titles-container').innerHTML = `<h1>Holas</h1>`
+```
 
 
 
@@ -292,25 +316,188 @@ navigation.removeChild(enlaces[0])
 
 
 
+**Remover varios elementos hijos**
+
+```js
+// Opción 1
+cursos.innerHTML = ''
+
+// Opción 2
+while(cursos.firstChild){
+	cursos.removeChild(cursos.firstChild)
+}
+```
+
 
 
 
 
 ## EVENTOS
 
+Los eventos permiten que el usuario interactúe directamente con el sitio web.
 
 
 
+### CLICK
 
-
-
-
-
-**Añadir evento de clic:**
+**Evento click**
 
 ```js
-const boton = document.getElementById('button')
-boton.addEventListener('click', () => boton.classList.toggle('alert'))
+// Alternativa # 1
+document.querySelector('#submit-buscador').addEventListener('click', e => {
+  e.preventDefault()
+  alert('Presionaste botón del formulario')
+})
+
+// Alternativa # 2
+document.querySelector('#submit-buscador').addEventListener('click', activarForm)
+
+function activarForm(e) {
+  e.preventDefault()
+  alert('Presionaste botón del formulario')
+}
+
+```
+
+> En el ejemplo se hace click en un botón de un formulario. Por defecto en los formularios se ejecuta una acción la cual es enviar los datos, lo que refresca la página. 
+>
+> Para prevenir esto utilizamos `e.preventDefault()`. Esto se aplica únicamente al trabajar con formularios.
+
+
+
+**Modificar Dom con evento click**
+
+```js
+document.querySelector('#encabezado').addEventListener('click', e => {
+  e.target.innerText = 'Nuevo título'
+})
+```
+
+> Con la palabra clave `target` podemos seleccionar el elemento y realizar modificaciones del DOM en él tras realizar una acción.
+
+
+
+**Otros eventos menos usados**
+
+1. Podemos realizar las mismas operaciones pero en esta ocasión con un doble clic, para ello utilizamos la palabra clave `dblclick` en lugar de `click`.
+
+2. Otro evento que opera en forma similar es `mouseover` que se acciona cuando se pasa el mouse por sobre un elemento con evento.
+
+
+
+
+
+### KEYUP & KEYDOWN
+
+
+
+**KeyUp**
+
+```js
+document.querySelector('#buscador').addEventListener('keyup', e => {
+  console.log(e.target.value)
+})
+```
+
+> En el ejemplo estamos escribiendo en un `<input>` y cada vez que escribimos o presionamos una tecla nos envía por consola el contenido actual de ese `<input>`.
+>
+> Esto es gracias a que con el evento `keydown` cada vez que soltamos una tecla se activa el evento.
+
+
+
+**KeyDown**
+
+Con `KeyDown` sucede lo mismo, solo que se activa apenas pulsas la tecla, sin necesidad de soltarla.
+
+
+
+**Focus**
+
+El evento `focus` funciona cada vez que estas dentro de un elemento, generalmente un `<input>`. Es útil por ejemplo para hacer que cuando un usuario entre a un campo se muestre una información o un estilo.
+
+
+
+**Blur**
+
+`blur` se dispara cuando el usuario se va de un elemento en concreto, básicamente es el contrario de `focus`. Sirve por ejemplo para validar formularios. 
+
+
+
+**Input**
+
+Este evento se dispara en todos los casos anteriores y adicionalmente si se corta, pega o copia contenido dentro de un elemento.
+
+
+
+
+
+
+
+### SUBMIT
+
+```js
+function agregarTweet(e){
+  e.preventDefault()
+  const tweet = document.querySelector('#tweet').value
+  console.log(tweet)
+}
+```
+
+
+
+
+
+
+
+### Event Bubbling
+
+Puede existir el caso en que tengamos un card con un evento clic y dentro de ese mismo card exista un botón con otro evento clic y viceversa. **Si en el ejemplo presionamos en el botón que esta dentro del card se ejecutaran los dos eventos al mismo tiempo**, para evitar eso podemos agregar lo siguiente al final de cada evento que este anidado: `e.stopPropagation()`. 
+
+De este modo al hacer clic sobre un evento que contenga a otro, solo se activara ese evento en concreto.
+
+
+
+
+
+
+
+### LocalStorage
+
+Mediante Local Storage es posible almacenar los cambios realizados en un sitio por un usuario para que la próxima vez que ingrese sus cambios permanezcan reflejados. Es una alternativa a utilizar una base de datos.
+
+
+
+**Agregar un valor a localStorage**
+
+```js
+localStorage.setItem('nombre', 'Carlos')
+```
+
+> Es posible utilizar `sessionStorage` en lugar de localStorage, sin embargo los datos contenidos con este método son eliminados al cerrar el navegador.
+>
+
+
+
+**Remover un valor de localStorage**
+
+```js
+localStorage.removeItem('nombre')
+```
+
+
+
+**Operar valor de localStorage**
+
+```js
+localStorage.getItem('nombre')
+```
+
+
+
+**Limpiar localStorage**
+
+```js
+localStorage.clear()
 ```
 
 
